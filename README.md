@@ -1,4 +1,4 @@
-# AWS-Cloud-Resume**Author:** Richmond Cequeña Rivera  
+# Personal Portfolio Website using AWS
 **Location:** Philippines  
 **Current Focus:** Upskilling in DevOps, Cloud Infrastructure, CI/CD, and Automation to transition from Production Application Support to Cloud Engineering.
 
