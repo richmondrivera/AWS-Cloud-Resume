@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DevOps Engineer Portfolio - Cloud Infrastructure, Kubernetes, AWS">
+    <meta name="theme-color" content="#1a1a2e">
+    
+    <title>Richmond Rivera - Cloud DevOps Engineer</title>
+    
+    <link rel="stylesheet" href="Richmond-Rivera.css">
+    <link rel="icon" href="software-development.png">   
+</head>
+
+<body>
+    <!-- Header Navigation -->
+    <header class="header" id="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <!-- Logo -->
+                <div class="logo">
+                    <span class="logo-icon">⚙</span>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                <!-- Navigation Menu -->
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#experience" class="nav-link">Experience</a></li>
+                    <li><a href="#education" class="nav-link">Education</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#blogs" class="nav-link">Blogs</a></li>
+                </ul>
+
+                <!-- Theme Toggle & Visitor Counter -->
+                <div class="header-controls">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                        <span class="theme-icon">🌙</span>
+                    </button>
+                    <div class="visitor-counter">
+                        <span class="counter-label">Visitors:</span>
+                        <span class="counter-number" id="visitorCount">1</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title fade-in-up">Hi, I'm Richmond Rivera</h1>
+                    <h2 class="hero-subtitle fade-in-up" style="animation-delay: 0.1s;">Cloud DevOps Engineer</h2>
+                    <p class="hero-description fade-in-up" style="animation-delay: 0.2s;">
+                        Executing the transition from Enterprise Production Support to Cloud Computing and Artificial Intelligence. Currently deploying homelab projects to automate infrastructure, optimize Linux environments, and scale cloud workloads.
+                    </p>
+                    <div class="hero-cta fade-in-up" style="animation-delay: 0.3s;">
+                        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                        <a href="#" class="btn btn-secondary" id="downloadResume">Download Resume</a>
+                    </div>
+                </div>
+
+                <!-- DevOps Photo -->
+                <div class="hero-image fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="profile-image">
+                        <div class="profile-placeholder">
+                            <img src="software-development.png" class="nav-logo">
+                                <defs>
+                                    <linearGradient id="profileGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+                                    </linearGradient>
+                                </defs>
+                                <!-- Head -->
+                                <circle cx="100" cy="70" r="35" fill="url(#profileGradient)"/>
+                                <!-- Body -->
+                                <path d="M 65 105 Q 65 130 100 150 Q 135 130 135 105 Z" fill="url(#profileGradient)"/>
+                                <!-- Accent -->
+                                <circle cx="100" cy="100" r="45" fill="none" stroke="url(#profileGradient)" stroke-width="2" opacity="0.3"/>
+                            </img>
+                        </div>
+                        <div class="image-border"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <div class="container">
+                <h2 class="section-title">About Me</h2>
+                <div class="about-grid">
+                    <div class="about-text fade-in">
+                        <p>
+                            I'm a Production Support Engineer with 3+ years of experience designing and implementing cloud infrastructure solutions. 
+                            I specialize in containerization, Kubernetes orchestration, and infrastructure automation using AWS and modern DevOps tools.
+                        </p>
+                        <p>
+                            My passion is to learn and maximize building reliable, scalable systems that enable engineering teams to deploy with confidence. 
+                            I focus on automation, observability, and continuous improvement to reduce operational overhead and increase system reliability.
+                        </p>
+                        <p>
+                            When I'm not optimizing infrastructure, you can find me contributing to open-source projects or writing about cloud-native technologies.
+                        </p>
+
+                        <!-- Stats -->
+                        <div class="stats-grid">
+                            <div class="stat-card fade-in-up">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Deployments</div>
+                            </div>
+                            <div class="stat-card fade-in-up">
+                                <div class="stat-number">99.9%</div>
+                                <div class="stat-label">Uptime</div>
+                            </div>
+                            <div class="stat-card fade-in-up">
+                                <div class="stat-number">10+</div>
+                                <div class="stat-label">Open Source</div>
+                            </div>
+                            <div class="stat-card fade-in-up">
+                                <div class="stat-number">3+</div>
+                                <div class="stat-label">Years Experience</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-features fade-in">
+                        <h3>What I Do Right Now</h3>
+                        <ul class="features-list">
+                            <li>
+                                <span class="feature-icon">🐳</span>
+                                <div>
+                                    <h4>Container Orchestration</h4>
+                                    <p>Design and manage Kubernetes clusters on AWS EKS</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="feature-icon">📊</span>
+                                <div>
+                                    <h4>Monitoring & Logging</h4>
+                                    <p>Implement comprehensive observability with CloudWatch, Prometheus, and Grafana</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="feature-icon">🔄</span>
+                                <div>
+                                    <h4>CI/CD Automation</h4>
+                                    <p>Build automated pipelines with GitHub Actions and AWS CodePipeline</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="feature-icon">🏗️</span>
+                                <div>
+                                    <h4>Infrastructure as Code</h4>
+                                    <p>Define infrastructure with Terraform and CloudFormation</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="feature-icon">🔐</span>
+                                <div>
+                                    <h4>Security & Compliance</h4>
+                                    <p>Implement RBAC, network policies, and security best practices</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="feature-icon">📈</span>
+                                <div>
+                                    <h4>Performance Optimization</h4>
+                                    <p>Optimize infrastructure for cost and performance</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section skills-section">
+            <div class="container">
+                <h2 class="section-title">Technical Skills</h2>
+                
+                <div class="skills-grid">
+                    <!-- Cloud Platforms -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">☁️ Cloud Platforms</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">AWS</span></li>
+                            <li><span class="skill-badge">GCP</span></li>
+                            <li><span class="skill-badge">Azure</span></li>
+                            <li><span class="skill-badge">Oracle Cloud</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Container & Orchestration -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">🐳 Container & Orchestration</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">Kubernetes</span></li>
+                            <li><span class="skill-badge">Docker</span></li>
+                            <li><span class="skill-badge">EKS</span></li>
+                            <li><span class="skill-badge">Helm</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Infrastructure as Code -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">📋 Infrastructure as Code</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">Terraform</span></li>
+                            <li><span class="skill-badge">CloudFormation</span></li>
+                            <li><span class="skill-badge">Ansible</span></li>
+                            <li><span class="skill-badge">Pulumi</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- CI/CD & Automation -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">🔄 CI/CD & Automation</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">GitHub Actions</span></li>
+                            <li><span class="skill-badge">GitLab CI</span></li>
+                            <li><span class="skill-badge">Jenkins</span></li>
+                            <li><span class="skill-badge">ArgoCD</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Monitoring & Logging -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">📊 Monitoring & Logging</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">CloudWatch</span></li>
+                            <li><span class="skill-badge">Prometheus</span></li>
+                            <li><span class="skill-badge">Grafana</span></li>
+                            <li><span class="skill-badge">ELK Stack</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Programming -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">💻 Programming Languages</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">Bash/Shell</span></li>
+                            <li><span class="skill-badge">Python</span></li>
+                            <li><span class="skill-badge">Go</span></li>
+                            <li><span class="skill-badge">YAML</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">🔐 Security</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">RBAC</span></li>
+                            <li><span class="skill-badge">Network Security</span></li>
+                            <li><span class="skill-badge">Secrets Management</span></li>
+                            <li><span class="skill-badge">Compliance</span></li>
+                        </ul>
+                    </div>
+
+                    <!-- Additional Tools -->
+                    <div class="skill-category fade-in">
+                        <div class="skill-header">
+                            <h3 class="skill-title">🛠️ Tools & Platforms</h3>
+                        </div>
+                        <ul class="skill-items">
+                            <li><span class="skill-badge">Git</span></li>
+                            <li><span class="skill-badge">Linux</span></li>
+                            <li><span class="skill-badge">Nginx</span></li>
+                            <li><span class="skill-badge">PostgreSQL</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Proficiency Bars -->
+                <div class="proficiency-section">
+                    <h3>Proficiency Levels</h3>
+                    <div class="proficiency-grid">
+                        <div class="proficiency-item fade-in">
+                            <div class="proficiency-header">
+                                <span class="proficiency-label">Kubernetes</span>
+                                <span class="proficiency-percent">68%</span>
+                            </div>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" style="width:68%"></div>
+                            </div>
+                        </div>
+                        <div class="proficiency-item fade-in">
+                            <div class="proficiency-header">
+                                <span class="proficiency-label">AWS</span>
+                                <span class="proficiency-percent">90%</span>
+                            </div>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="proficiency-item fade-in">
+                            <div class="proficiency-header">
+                                <span class="proficiency-label">Terraform</span>
+                                <span class="proficiency-percent">75%</span>
+                            </div>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="proficiency-item fade-in">
+                            <div class="proficiency-header">
+                                <span class="proficiency-label">Docker</span>
+                                <span class="proficiency-percent">70%</span>
+                            </div>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="proficiency-item fade-in">
+                            <div class="proficiency-header">
+                                <span class="proficiency-label">Bash/Python</span>
+                                <span class="proficiency-percent">85%</span>
+                            </div>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="proficiency-item fade-in">
+                            <div class="proficiency-header">
+                                <span class="proficiency-label">CI/CD Pipelines</span>
+                                <span class="proficiency-percent">88%</span>
+                            </div>
+                            <div class="proficiency-bar">
+                                <div class="proficiency-fill" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section experience-section">
+            <div class="container">
+                <h2 class="section-title">Experience</h2>
+                
+                <div class="timeline">
+                    <!-- Experience 1 -->
+                    <div class="timeline-item fade-in-up">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Application Support Engineer</h3>
+                            <p class="timeline-company">Telus Digital</p>
+                            <p class="timeline-date">April 2026 - Present</p>
+                            <ul class="timeline-details">
+                                <li>Developed and deployed automated Bash shell scripting for server restarts, reducing manual intervention, streamlining routine system maintenance, and driving overall operational efficiency.</li>
+                                <li>Facilitated configuration management and supported pull requests (PRs) for partner Software Developers and Data Engineers within Telus Health, utilizing Git, GitHub, and Visual Studio Code.</li>
+                                <li>Administered configurations via the Google Cloud Platform (GCP) Console and managed workflow tracking through JIRA. Utilized PagerDuty for continuous alerting and system health monitoring to ensure rapid incident triage and strict Service Level Agreement (SLA) adherence.</li>
+                                <li>Achieved 99.99% uptime SLA for critical production systems.</li>
+                                <li>Supported enterprise data pipelines, system loads, and ETL workflows utilizing Informatica and Datahub, ensuring seamless source-to-target data synchronization.</li>
+                                <li>Executed secure access provisioning via AccessNow for business intelligence reporting environments—including DOMO, Looker, and Tableau—supporting seamless data access for internal clients and external stakeholders.</li>
+                                <li>Implemented comprehensive monitoring reducing MTTR by 60%.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Experience 2 -->
+                    <div class="timeline-item fade-in-up">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Application Operations Engineer</h3>
+                            <p class="timeline-company">DXC Technology Philippines</p>
+                            <p class="timeline-date">October 2023 - April 2026</p>
+                            <ul class="timeline-details">
+                                <li>Provide L1 and L2 Production Support, leveraging technologies such as Cyberark, CA Workload Automation (Autosys), Akamai, Azure DataBricks, Azure Data Factory, Feedhub File Transfer, Dynatrace, Jenkins, JFrog Artifactory, Linux/Unix server, Microsoft Azure, OpenShift Container Platform, PegaSystems, Splunk Cloud, SQL, JBoss, WebLogic, and Windows server. Manage updates, renewals, and expirations of certificates.</li>
+                                <li>Assist teams in implementing changes within supported environments, monitor and verify services post-deployments, and conduct health checks.</li>
+                                <li>Handle batch tasks and act as a liaison between vendors and internal/external teams.</li>
+                                <li>Support projects by participating in post-implementation knowledge transfer, technical verification, and documentation creation and maintenance for the knowledge base.</li>
+                                <li>Engage in Incident and problem management, including root cause analysis, incident recovery, incident notification, and communication, as well as daily incident review and reporting.</li>
+                                <li>Effectively manage change management processes, including creating change records, facilitating exemption approvals, and representing changes in meetings with the Change Advisory Board (CAB) and Technical Advisory Board (TAB) stakeholders.</li>
+                                <li>Established disaster recovery procedures achieving 99.9% uptime.</li>
+                                <li>Created Bash scripts to automate tasks for Linux servers.</li>
+                                <li>Automated Macro Excel scripts to streamline operational efficiency.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Experience 3 -->
+                    <div class="timeline-item fade-in-up">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3 class="timeline-title">Independent Contractor</h3>
+                            <p class="timeline-company">LAZADA Philippines Services Philippines</p>
+                            <p class="timeline-date">Jan 2022 - July 2023</p>
+                            <ul class="timeline-details">
+                                <li>Parcel Management: Efficiently manage and organize assigned parcels/goods for delivery according to established routes and schedules. </li>
+                                <li>Timely Delivery: Ensure the prompt and accurate delivery of all parcels to the designated Lazada customers within the agreed-upon timeframe.</li>
+                                <li>Customer Service: Provide excellent customer service during all delivery interactions, maintaining a professional and courteous demeanor.</li>
+                                <li>Safety and Security: Handle all parcels with care to prevent damage and maintain the security and confidentiality of the goods. </li>
+                                <li>Communication: Utilize Lazada's designated mobile application or system for real-time updates on delivery status, route optimization, and communication with dispatch/support.</li>
+                                <li>Compliance: Adhere strictly to all Lazada delivery protocols, safety guidelines, and regulations.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section education-section">
+            <div class="container">
+                <h2 class="section-title">Education & Certifications</h2>
+                
+                <div class="education-grid">
+                    <!-- Education -->
+                    <div class="education-card fade-in">
+                        <div class="education-header">
+                            <h3 class="education-title">Bachelor of Science in Information Systems</h3>
+                            <p class="education-institution">University of Rizal System - Binangonan Campus</p>   
+                        </div>
+                    </div>
+
+                    <div class="education-card fade-in">
+                        <div class="education-header">
+                            <h3 class="education-title">AWS Re/Start Cohort</h3>
+                            <p class="education-institution">Amazon Web Services via Edukasyon PH </p>   
+                        </div>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="certifications-group">
+                        <h3 class="certifications-title">Professional Certifications</h3>
+                        
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Microsoft Certified: Azure Solutions Architect Expert (AZ-305)</h4>
+                                <span class="cert-date">December 2025</span>
+                            </div>
+                            <p class="cert-issuer">Microsoft</p>
+                            <p class="cert-credential">Credential ID: 90DB6D22B1A86380</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Microsoft Certified: Azure Administrator Associate (AZ-104)</h4>
+                                <span class="cert-date">December 2025</span>
+                            </div>
+                            <p class="cert-issuer">Microsoft</p>
+                            <p class="cert-credential">Credential ID: B0FEA3A5F7200BFD</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">AWS Certified AI Practitioner (AIF-C01)</h4>
+                                <span class="cert-date">September 2025</span>
+                            </div>
+                            <p class="cert-issuer">Amazon Web Services</p>
+                            <p class="cert-credential">Credential URL: https://www.credly.com/badges/4422e28b-a0d8-4a82-a0c0-c7e4801571e4</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">ISC2 Candidate</h4>
+                                <span class="cert-date">August 2025</span>
+                            </div>
+                            <p class="cert-issuer">ISC2</p>
+                            <p class="cert-credential">Credential URL: https://www.credly.com/badges/ce3f7b37-742b-4ccd-a76d-ff47bd2f27eb</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Microsoft Certified: Azure AI Fundamentals (AI-900)</h4>
+                                <span class="cert-date">June 2025</span>
+                            </div>
+                            <p class="cert-issuer">Microsoft</p>
+                            <p class="cert-credential">Credential ID: ADD10125923AA213</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Microsoft Certified: Azure Data Fundamentals (DP-900)</h4>
+                                <span class="cert-date">June 2025</span>
+                            </div>
+                            <p class="cert-issuer">Microsoft</p>
+                            <p class="cert-credential">Credential ID: 2494D4C69F7805C7</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)</h4>
+                                <span class="cert-date">June 2025</span>
+                            </div>
+                            <p class="cert-issuer">Microsoft</p>
+                            <p class="cert-credential">Credential ID: AA5D19B125836C9D</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">AWS Certified: Cloud Practitioner (CLF-C02)</h4>
+                                <span class="cert-date">March 2024</span>
+                            </div>
+                            <p class="cert-issuer">Amazon Web Services</p>
+                            <p class="cert-credential">Credential URL: https://www.credly.com/badges/ef6e6675-8377-49a7-8e87-a00d978b186f</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Microsoft Certified: Azure Fundamentals (AZ-900)</h4>
+                                <span class="cert-date">December 2023</span>
+                            </div>
+                            <p class="cert-issuer">Microsoft</p>
+                            <p class="cert-credential">Credential ID: C5D1CBC2BC06FB3A</p>
+                        </div>
+
+                        <div class="cert-card fade-in">
+                            <div class="cert-header">
+                                <h4 class="cert-name">Oracle Certified: Cloud Infrastructure Foundations Associate  </h4>
+                                <span class="cert-date">November 2023</span>
+                            </div>
+                            <p class="cert-issuer">Oracle</p>
+                            <p class="cert-credential">Credential ID: 55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682</p>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blogs Section -->
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's discuss how I can help with your infrastructure needs</p>
+
+                <div class="contact-grid">
+                    <!-- Contact Form -->
+                    <div class="contact-form-wrapper fade-in">
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Name *</label>
+                                <input 
+                                    type="text" 
+                                    id="name" 
+                                    name="name" 
+                                    class="form-input" 
+                                    required
+                                    placeholder="Your name"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email *</label>
+                                <input 
+                                    type="email" 
+                                    id="email" 
+                                    name="email" 
+                                    class="form-input" 
+                                    required
+                                    placeholder="your.email@example.com"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="subject" class="form-label">Subject *</label>
+                                <input 
+                                    type="text" 
+                                    id="subject" 
+                                    name="subject" 
+                                    class="form-input" 
+                                    required
+                                    placeholder="What's this about?"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea 
+                                    id="message" 
+                                    name="message" 
+                                    class="form-textarea" 
+                                    rows="6" 
+                                    required
+                                    placeholder="Tell me about your project..."
+                                ></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large">Send Message</button>
+                            <div class="form-message" id="formMessage" style="display: none;"></div>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="contact-info fade-in">
+                        <h3 class="contact-info-title">Contact Information</h3>
+                        
+                        <div class="contact-item">
+                            <span class="contact-icon">📧</span>
+                            <div>
+                                <p class="contact-label">Email</p>
+                                <a href="mailto:richmondrivera007@gmail.com" class="contact-link">
+                                    richmondrivera007@gmail.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <span class="contact-icon">💼</span>
+                            <div>
+                                <p class="contact-label">LinkedIn</p>
+                                <a href="https://www.linkedin.com/in/richmondrivera007/" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                    linkedin.com/in/richmondrivera007/
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <span class="contact-icon">🐙</span>
+                            <div>
+                                <p class="contact-label">GitHub</p>
+                                <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer" class="contact-link">
+                                    github.com/richmondrivera
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <!-- Download Resume Button -->
+                        <div class="resume-section">
+                            <h4 class="resume-title">Quick Links</h4>
+                            <a href="#" class="btn btn-secondary btn-block" id="downloadResumeButton">
+                                📥 Download Resume (PDF)
+                            </a>
+                            <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-block">
+                                👀 View Portfolio on GitHub
+                            </a>
+                        </div>
+
+                        <!-- Response Time -->
+                        <div class="response-time">
+                            <p class="response-text">
+                                <span class="status-indicator">●</span> 
+                                I typically respond within 24 hours
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    &copy; 2026 Richmond Rivera. Built with HTML, CSS, and JavaScript.
+                </p>
+                <div class="footer-links">
+                    <a href="#about" class="footer-link">Back to Top</a>
+                    <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer" class="footer-link">
+                        Source Code
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-badge">
+                <p class="footer-note">
+                    🚀 Hosted on AWS S3 + CloudFront | Built for DevOps Excellence
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Skip to main content link (accessibility) -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Smooth Scroll Script -->
+    <script src="Richmond-Rivera.js"></script>
+</body>
+</html>
