@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function initializePage() {
     initTheme();
-    initVisitorCounter();
+    trackVisitor();
     initNavigation();
     initFormHandling();
     initSmoothScrolling();
@@ -68,80 +68,31 @@ function setTheme(theme) {
     }
 }
 
-// ============================================
-// Visitor Counter (LocalStorage)
-// ============================================
 
-/*
-function initVisitorCounter() {
-    const counterElement = document.getElementById('visitorCount');
-    
-    if (!counterElement) return;
-    
-    // Get current count from localStorage
-    let visitCount = localStorage.getItem('visitCount');
-    
-    if (!visitCount) {
-        // First visit
-        visitCount = 1;
-    } else {
-        // Increment on each visit
-        visitCount = parseInt(visitCount) + 1;
-    }
-    
-    // Save updated count
-    localStorage.setItem('visitCount', visitCount);
-    
-    // Update display with animation
-    counterElement.textContent = visitCount;
-    counterElement.style.animation = 'none';
-    setTimeout(() => {
-        counterElement.style.animation = 'pulse 0.5s ease-out';
-    }, 10);
-    
-    // Log visitor milestone
-    if (visitCount === 1) {
-        console.log('👋 Welcome! First visit.');
-    } else if (visitCount % 10 === 0) {
-        console.log(`🎉 You've visited ${visitCount} times!`);
-    }
-    
-    // Optional: Send to Lambda/DynamoDB
-    // trackVisitor(visitCount);
-}
-*/
-	/**
+// Visitor Counter (LocalStorage)
+
+
+/**
  * Track visitor count using Lambda function
  */
-
 function trackVisitor() {
-  fetch('', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    // Update the counter display on your webpage
-    const countElement = document.getElementById('visitorCount');
-    if (countElement) {
-      countElement.textContent = data.count;
-    }
-    console.log('Visitor count updated:', data.count);
-  })
-  .catch(error => {
-    console.error('Error tracking visitor:', error);
-    // Fallback display if API fails
-    const countElement = document.getElementById('visitorCount');
-    if (countElement) {
-      countElement.textContent = '—';
-    }
-  });
+  fetch('https://krjhjjpql3.execute-api.us-east-1.amazonaws.com/count')
+    .then(response => response.json())
+    .then(data => {
+      const countElement = document.getElementById('visitorCount');
+      if (countElement) {
+        countElement.textContent = data.views;
+      }
+      console.log('Visitor count updated:', data.views);
+    })
+    .catch(error => {
+      console.error('Error tracking visitor:', error);
+      const countElement = document.getElementById('visitorCount');
+      if (countElement) {
+        countElement.textContent = '—';
+      }
+    });
 }
-
-// Call this function when the page loads
-trackVisitor();
 
 
 // ============================================
