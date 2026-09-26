@@ -27,3 +27,4 @@ def lambda_handler(event, context):
         'body': json.dumps({'views': int(new_count)})
     }
 # trigger terraform plan test
+# retry terraform plan with new credentials
