@@ -25,4 +25,4 @@ def lambda_handler(event, context):
             'Content-Type': 'application/json'
         },
         'body': json.dumps({'views': int(new_count)})
-    }# Testing Github Actions pipeline
+    }
