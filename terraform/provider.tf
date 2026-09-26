@@ -11,6 +11,12 @@ terraform {
       version = "~> 2.4"
     }
   }
+
+  backend "s3" {
+    bucket = "richmondrivera-terraform-state"
+    key    = "cloud-resume/terraform.tfstate"
+    region = "us-east-1"
+  }
 }
 
 provider "aws" {
