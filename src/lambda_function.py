@@ -28,3 +28,4 @@ def lambda_handler(event, context):
     }
 # trigger terraform plan test
 # retry terraform plan with new credentials
+# trigger terraform-apply job test
