@@ -36,19 +36,22 @@ The architecture leverages the following AWS services:
 * **Version Control:** Git & GitHub
 
 ## 📂 Repository Structure
-
 ```text
-├── frontend/               # Website assets (HTML, CSS, JS)
-├── backend/                # Lambda function (Python) and unit tests
-├── infrastructure/         # Terraform configuration files (.tf)
-├── .github/workflows/      # GitHub Actions CI/CD pipeline definitions
-└── README.md
+├── .github/workflows/         # GitHub Actions CI/CD pipelines (frontend.yml, backend.yml)
+├── src/                       # Lambda function source code (lambda_function.py)
+├── terraform/                 # Infrastructure as Code configuration files (.tf)
+├── tests/                     # Python unit tests for the Lambda function (test_app.py)
+├── Error_Richmond-Rivera.html # Frontend error page
+├── Richmond-Rivera.css        # Frontend styling
+├── Richmond-Rivera.html       # Frontend main HTML file
+├── Richmond-Rivera.js         # Frontend logic and API integration
+└── README.md                  # Project documentation
 ```
 
 ## ⚙️ Deployment Steps
 
 1. **Infrastructure:**
-   - Navigate to the `infrastructure` directory.
+   - Navigate to the `terraform` directory.
    - Run `terraform init` to initialize the AWS provider.
    - Run `terraform plan` to verify the resources to be created.
    - Run `terraform apply` to provision the infrastructure.
