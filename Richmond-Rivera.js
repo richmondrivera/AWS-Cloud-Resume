@@ -20,6 +20,7 @@ function initializePage() {
     initIntersectionObserver();
     initScrollAnimations();
     initResume();
+    initBackToTop();
 }
 
 // ============================================
@@ -35,7 +36,7 @@ function initTheme() {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     
-    // Set initial theme
+    // Set initial theme (not saved, so it keeps following the phone/OS setting)
     setTheme(initialTheme);
     
     // Toggle button listener
@@ -43,7 +44,7 @@ function initTheme() {
         themeToggle.addEventListener('click', function() {
             const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme);
+            setTheme(newTheme, true); // visitor chose it, so remember it
         });
     }
     
@@ -55,12 +56,16 @@ function initTheme() {
     });
 }
 
-function setTheme(theme) {
+function setTheme(theme, save = false) {
     const htmlElement = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
     
     htmlElement.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
+    
+    // Only store the theme when the visitor picks it with the toggle
+    if (save) {
+        localStorage.setItem('theme', theme);
+    }
     
     // Update toggle button icon
     if (themeToggle) {
@@ -109,6 +114,8 @@ function initNavigation() {
         mobileToggle.addEventListener('click', function() {
             mobileToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
+            // Tell screen readers whether the menu is open
+            mobileToggle.setAttribute('aria-expanded', navMenu.classList.contains('active'));
         });
         
         // Close menu when link clicked
@@ -116,13 +123,14 @@ function initNavigation() {
             link.addEventListener('click', function() {
                 mobileToggle.classList.remove('active');
                 navMenu.classList.remove('active');
+                mobileToggle.setAttribute('aria-expanded', 'false');
             });
         });
     }
     
-    // Update active nav link on scroll
+    // Update active nav link on scroll (at most once per frame, for smooth phone scrolling)
     updateActiveNavLink();
-    window.addEventListener('scroll', updateActiveNavLink);
+    window.addEventListener('scroll', rafThrottle(updateActiveNavLink));
 }
 
 function updateActiveNavLink() {
@@ -171,6 +179,33 @@ function initSmoothScrolling() {
                 top: targetPosition,
                 behavior: 'smooth'
             });
+        });
+    });
+}
+
+// ============================================
+// Back-to-Top Arrow
+// ============================================
+
+function initBackToTop() {
+    const backToTop = document.getElementById('backToTop');
+    if (!backToTop) return;
+    
+    const SHOW_AFTER_PX = 400; // how far down (in pixels) before the arrow appears
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    const updateBackToTop = () => {
+        backToTop.classList.toggle('is-visible', window.pageYOffset > SHOW_AFTER_PX);
+    };
+    
+    // Correct state on load (e.g. page refreshed halfway down)
+    updateBackToTop();
+    window.addEventListener('scroll', rafThrottle(updateBackToTop));
+    
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: reduceMotion.matches ? 'auto' : 'smooth'
         });
     });
 }
@@ -277,7 +312,7 @@ function showFormMessage(message, type, element) {
     if (!element) return;
     
     element.textContent = message;
-    element.className = `form-message ${type}`;
+    element.className = form-message ${type};
     element.style.display = 'block';
     
     // Scroll to message
@@ -431,7 +466,7 @@ function trackEvent(eventName, eventData = {}) {
     }
     
     // Custom tracking (e.g., send to Lambda)
-    console.log(`Event: ${eventName}`, eventData);
+    console.log(Event: ${eventName}, eventData);
 }
 
 // Track page view
@@ -481,6 +516,7 @@ document.addEventListener('keydown', function(event) {
         if (mobileToggle && navMenu && navMenu.classList.contains('active')) {
             mobileToggle.classList.remove('active');
             navMenu.classList.remove('active');
+            mobileToggle.setAttribute('aria-expanded', 'false');
         }
     }
 });
@@ -590,6 +626,23 @@ function throttle(func, limit) {
             inThrottle = true;
             setTimeout(() => inThrottle = false, limit);
         }
+    };
+}
+
+/**
+ * Run a function at most once per screen refresh.
+ * Used for scroll listeners so phones don't redo the same work
+ * dozens of times per second while you scroll.
+ */
+function rafThrottle(func) {
+    let scheduled = false;
+    return function(...args) {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(() => {
+            scheduled = false;
+            func.apply(this, args);
+        });
     };
 }
 
