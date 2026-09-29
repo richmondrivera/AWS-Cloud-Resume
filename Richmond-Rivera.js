@@ -24,55 +24,160 @@ function initializePage() {
 }
 
 // ============================================
-// Dark Mode / Theme Toggle
+// Theme: Auto (follows the device) / Light / Dark
 // ============================================
+//
+// Auto uses the device's own setting through "prefers-color-scheme", which
+// iPhone/iPad (iOS 13+), Android 10+, Windows 10/11, macOS and Linux all report.
+// The visitor's choice is saved as 'light' or 'dark'; Auto is saved as "nothing".
+// No template literals (backticks) are used here, so copy/paste can't break it.
+
+const THEME_KEY = 'theme';
+const THEME_NAMES = { system: 'Auto', light: 'Light', dark: 'Dark' };
+const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+let themeStatusTimer = null;
 
 function initTheme() {
     const themeToggle = document.getElementById('themeToggle');
-    const htmlElement = document.documentElement;
-    
-    // Check saved theme or system preference
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-    
-    // Set initial theme (not saved, so it keeps following the phone/OS setting)
-    setTheme(initialTheme);
-    
-    // Toggle button listener
+
+    // Apply saved choice, or Auto if nothing is saved
+    applyTheme(getSavedThemeChoice());
+
+    // Button: Auto -> Light -> Dark -> Auto (order adapts, see nextThemeChoice)
     if (themeToggle) {
         themeToggle.addEventListener('click', function() {
-            const currentTheme = htmlElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            setTheme(newTheme, true); // visitor chose it, so remember it
+            const next = nextThemeChoice(getCurrentThemeChoice());
+            saveThemeChoice(next);
+            applyTheme(next);
+            showThemeStatus(next);
         });
     }
-    
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-        if (!localStorage.getItem('theme')) {
-            setTheme(e.matches ? 'dark' : 'light');
+
+    // While in Auto, follow the device live (e.g. a phone that turns dark at sunset)
+    const onSystemThemeChange = function() {
+        if (getCurrentThemeChoice() === 'system') {
+            applyTheme('system');
         }
-    });
+    };
+
+    if (systemDarkQuery.addEventListener) {
+        systemDarkQuery.addEventListener('change', onSystemThemeChange);
+    } else if (systemDarkQuery.addListener) {
+        systemDarkQuery.addListener(onSystemThemeChange); // older iPhones/iPads (iOS 13) and old Safari
+    }
 }
 
-function setTheme(theme, save = false) {
+// 'dark' or 'light', whatever the device is set to right now
+function getSystemTheme() {
+    return systemDarkQuery.matches ? 'dark' : 'light';
+}
+
+// 'system', 'light' or 'dark' (what the visitor picked)
+function getCurrentThemeChoice() {
+    const choice = document.documentElement.getAttribute('data-theme-choice');
+    return choice === 'light' || choice === 'dark' ? choice : 'system';
+}
+
+function getSavedThemeChoice() {
+    try {
+        const saved = localStorage.getItem(THEME_KEY);
+        return saved === 'light' || saved === 'dark' ? saved : 'system';
+    } catch (e) {
+        return 'system'; // storage blocked (some private/incognito modes): follow the device
+    }
+}
+
+function saveThemeChoice(choice) {
+    try {
+        if (choice === 'system') {
+            localStorage.removeItem(THEME_KEY);
+        } else {
+            localStorage.setItem(THEME_KEY, choice);
+        }
+    } catch (e) {
+        // storage blocked: the choice still works until the tab is closed
+    }
+}
+
+// The first tap always visibly changes the page:
+// device dark  -> Auto, Light, Dark, Auto...
+// device light -> Auto, Dark, Light, Auto...
+function nextThemeChoice(choice) {
+    const system = getSystemTheme();
+    const opposite = system === 'dark' ? 'light' : 'dark';
+
+    if (choice === 'system') return opposite;
+    if (choice === opposite) return system;
+    return 'system';
+}
+
+function applyTheme(choice) {
     const htmlElement = document.documentElement;
+    const theme = choice === 'system' ? getSystemTheme() : choice;
+
+    htmlElement.setAttribute('data-theme', theme);         // what the CSS uses
+    htmlElement.setAttribute('data-theme-choice', choice); // which icon to show
+
+    updateThemeToggleLabel(choice, theme);
+    updateBrowserBarColor();
+}
+
+// Hover tooltip (desktop) + screen-reader label (VoiceOver / TalkBack / Narrator)
+function updateThemeToggleLabel(choice, theme) {
     const themeToggle = document.getElementById('themeToggle');
-    
-    htmlElement.setAttribute('data-theme', theme);
-    
-    // Only store the theme when the visitor picks it with the toggle
-    if (save) {
-        localStorage.setItem('theme', theme);
-    }
-    
-    // Update toggle button icon
-    if (themeToggle) {
-        themeToggle.querySelector('.theme-icon').textContent = theme === 'dark' ? '☀️' : '🌙';
+    if (!themeToggle) return;
+
+    const next = nextThemeChoice(choice);
+    const current = choice === 'system'
+        ? 'Auto (' + theme + ', matches your device)'
+        : THEME_NAMES[choice] + ' mode';
+    const upcoming = next === 'system'
+        ? 'Auto (match your device)'
+        : THEME_NAMES[next] + ' mode';
+    const label = 'Theme: ' + current + '. Switch to ' + upcoming;
+
+    themeToggle.setAttribute('title', label);
+    themeToggle.setAttribute('aria-label', label);
+}
+
+// Short note under the button after a tap, since phones never show tooltips
+function showThemeStatus(choice) {
+    const status = document.getElementById('themeStatus');
+    if (!status) return;
+
+    status.textContent = choice === 'system'
+        ? 'Auto: matches your device'
+        : THEME_NAMES[choice] + ' mode';
+    status.classList.add('is-visible');
+
+    clearTimeout(themeStatusTimer);
+    themeStatusTimer = setTimeout(function() {
+        status.classList.remove('is-visible');
+    }, 1800);
+}
+
+// Matches the phone's browser bar (Android Chrome, Samsung Internet, iOS Safari)
+// to the header color defined in the CSS (--frame-solid)
+function updateBrowserBarColor() {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (!meta) return;
+
+    const color = getComputedStyle(document.documentElement)
+        .getPropertyValue('--frame-solid')
+        .trim();
+    if (color) {
+        meta.setAttribute('content', color);
     }
 }
 
+// Kept so window.Portfolio.setTheme('light' | 'dark' | 'system') still works
+function setTheme(theme, save = false) {
+    const choice = theme === 'light' || theme === 'dark' ? theme : 'system';
+    if (save) {
+        saveThemeChoice(choice);
+    }
+    applyTheme(choice);
+}
 
 // Visitor Counter (LocalStorage)
 
@@ -684,5 +789,5 @@ window.Portfolio = {
 };
 
 console.log('Portfolio website initialized successfully!');
-console.log('Theme:', localStorage.getItem('theme') || 'default');
+console.log('Theme:', getCurrentThemeChoice());
 console.log('Visitor count:', localStorage.getItem('visitCount') || 1);
