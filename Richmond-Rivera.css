@@ -519,9 +519,9 @@ code {
 
 .hero {
     position: relative;
-    /* Soft light "spot" at the top-left on top of the gray -> black gradient */
+    /* Soft light "spot" at the top-centre on top of the gray -> black gradient */
     background:
-        radial-gradient(ellipse 70% 60% at 15% 0%, rgba(255, 255, 255, 0.10), transparent 70%),
+        radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255, 255, 255, 0.10), transparent 70%),
         var(--gradient-hero);
     color: var(--frame-text);
     padding: var(--spacing-4xl) 0;
@@ -533,21 +533,20 @@ code {
     align-items: center;
 }
 
+/* Text-only hero: one centred column (name, title, description, buttons) */
 .hero-container {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding-left: max(var(--spacing-md), env(safe-area-inset-left, 0px));
     padding-right: max(var(--spacing-md), env(safe-area-inset-right, 0px));
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-3xl);
-    align-items: center;
+    text-align: center;
 }
 
 .hero-title {
-    /* Fluid size: 2rem on small phones up to 3.5rem on desktop */
-    font-size: clamp(2rem, 5vw + 0.75rem, 3.5rem);
+    /* Fluid size: bigger now that the name stands on its own */
+    font-size: clamp(2.25rem, 6vw + 1rem, 4.5rem);
+    letter-spacing: -0.02em;
     color: var(--frame-text);             /* fallback if gradient text isn't supported */
     background: var(--gradient-title);
     -webkit-background-clip: text;
@@ -557,7 +556,7 @@ code {
 }
 
 .hero-subtitle {
-    font-size: clamp(1.25rem, 1.5vw + 0.9rem, 1.5rem);
+    font-size: clamp(1.25rem, 1.5vw + 0.9rem, 1.6rem);
     color: #e4e4e7;
     margin-bottom: var(--spacing-lg);
 }
@@ -565,13 +564,14 @@ code {
 .hero-description {
     font-size: 1.1rem;
     color: #d4d4d8;
-    margin-bottom: var(--spacing-2xl);
+    margin: 0 auto var(--spacing-2xl);
     line-height: 1.8;
     max-width: 60ch;
 }
 
 .hero-cta {
     display: flex;
+    justify-content: center;
     gap: var(--spacing-lg);
     flex-wrap: wrap;
 }
@@ -598,73 +598,20 @@ code {
     color: #fafafa;
 }
 
-/* Profile Image */
-.profile-image {
-    position: relative;
-    /* Shrinks on narrow phones so it never overflows a 320px screen */
-    width: min(300px, 72vw);
-    height: min(300px, 72vw);
-    margin: 0 auto;
-}
-
-.profile-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(145deg, #a1a1aa 0%, #52525b 40%, #18181b 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.75),
-                inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    animation: float 3s ease-in-out infinite;
-}
-
-.nav-logo {
-    width: 72%;
-    height: 72%;
-    object-fit: contain;
-    display: block;
-}
-
-.image-border {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    border: 2px dashed rgba(255, 255, 255, 0.28);
-    border-radius: 50%;
-    animation: rotate 24s linear infinite;
-}
-
-@keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-}
-
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
 @media (max-width: 768px) {
     .hero {
         padding: var(--spacing-3xl) 0;
     }
 
-    .hero-container {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-2xl);
-    }
-
-    .profile-image {
-        width: min(250px, 68vw);
-        height: min(250px, 68vw);
-    }
-
+    /* Stacked, centred buttons that don't stretch across a whole tablet */
     .hero-cta {
         flex-direction: column;
+        align-items: center;
+    }
+
+    .hero-cta .btn {
+        width: 100%;
+        max-width: 320px;
     }
 }
 
