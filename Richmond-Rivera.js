@@ -312,7 +312,7 @@ function showFormMessage(message, type, element) {
     if (!element) return;
     
     element.textContent = message;
-    element.className = form-message ${type};
+    element.className = `form-message ${type}`;
     element.style.display = 'block';
     
     // Scroll to message
@@ -466,7 +466,7 @@ function trackEvent(eventName, eventData = {}) {
     }
     
     // Custom tracking (e.g., send to Lambda)
-    console.log(Event: ${eventName}, eventData);
+    console.log(`Event: ${eventName}`, eventData);
 }
 
 // Track page view
