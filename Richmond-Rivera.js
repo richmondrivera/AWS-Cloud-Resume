@@ -1,793 +1,632 @@
-/**
- * Portfolio Website - JavaScript
- * Handles dark mode, visitor counter, form validation, and interactions
- */
+/* ==========================================================================
+   Richmond Rivera — Portfolio script
+   --------------------------------------------------------------------------
+   This file is loaded in <head> and runs in two parts:
 
-// ============================================
-// Initialization
-// ============================================
+   PART 1 runs immediately, before the page is drawn:
+     • marks the page as "JavaScript is on" (adds class="js" to <html>)
+     • applies the saved theme, so dark mode never flashes white
+     • picks which page (view) to show from the address bar
 
-document.addEventListener('DOMContentLoaded', function() {
-    initializePage();
-});
+   PART 2 runs once the HTML has loaded:
+     theme switch, page switching, automatic counts, job durations,
+     project milestones, certification filters, "Recent changes" card,
+     copy-email button, new-tab labels, back-to-top, visitor counter.
 
-function initializePage() {
-    initTheme();
-    trackVisitor();
-    initNavigation();
-    initFormHandling();
-    initSmoothScrolling();
-    initIntersectionObserver();
-    initScrollAnimations();
-    initResume();
-    initBackToTop();
-}
+   Note: no template literals (backticks) are used on purpose, so copying
+   and pasting this file can't break it.
+   ========================================================================== */
 
-// ============================================
-// Theme: Auto (follows the device) / Light / Dark
-// ============================================
-//
-// Auto uses the device's own setting through "prefers-color-scheme", which
-// iPhone/iPad (iOS 13+), Android 10+, Windows 10/11, macOS and Linux all report.
-// The visitor's choice is saved as 'light' or 'dark'; Auto is saved as "nothing".
-// No template literals (backticks) are used here, so copy/paste can't break it.
+(function () {
+    'use strict';
 
-const THEME_KEY = 'theme';
-const THEME_NAMES = { system: 'Auto', light: 'Light', dark: 'Dark' };
-const systemDarkQuery = window.matchMedia('(prefers-color-scheme: dark)');
-let themeStatusTimer = null;
+    /* ------------------------------------------------------------------
+       Settings you may want to change
+       ------------------------------------------------------------------ */
 
-function initTheme() {
-    const themeToggle = document.getElementById('themeToggle');
+    // Pages that exist in index.html (<section class="view" data-view="...">).
+    // ✏️ If you add a page, add its name here AND in the "6. Views" part of the CSS.
+    var VIEWS = ['overview', 'experience', 'certifications'];
+    var DEFAULT_VIEW = 'overview';
 
-    // Apply saved choice, or Auto if nothing is saved
-    applyTheme(getSavedThemeChoice());
-
-    // Button: Auto -> Light -> Dark -> Auto (order adapts, see nextThemeChoice)
-    if (themeToggle) {
-        themeToggle.addEventListener('click', function() {
-            const next = nextThemeChoice(getCurrentThemeChoice());
-            saveThemeChoice(next);
-            applyTheme(next);
-            showThemeStatus(next);
-        });
-    }
-
-    // While in Auto, follow the device live (e.g. a phone that turns dark at sunset)
-    const onSystemThemeChange = function() {
-        if (getCurrentThemeChoice() === 'system') {
-            applyTheme('system');
-        }
+    // Browser tab title for each page
+    var VIEW_TITLES = {
+        overview: 'Richmond Rivera — Cloud DevOps Engineer',
+        experience: 'Experience — Richmond Rivera',
+        certifications: 'Certifications — Richmond Rivera'
     };
 
-    if (systemDarkQuery.addEventListener) {
-        systemDarkQuery.addEventListener('change', onSystemThemeChange);
-    } else if (systemDarkQuery.addListener) {
-        systemDarkQuery.addListener(onSystemThemeChange); // older iPhones/iPads (iOS 13) and old Safari
+    // Your API Gateway + Lambda visitor counter (must return JSON like {"views": 123})
+    var VISITOR_API = 'https://krjhjjpql3.execute-api.us-east-1.amazonaws.com/count';
+    var VISITOR_TIMEOUT_MS = 6000;
+
+    // Spoken labels for project milestones (screen readers)
+    var STEP_LABELS = { done: 'Done', running: 'In progress', pending: 'Planned' };
+
+    // Names used in the browser's localStorage
+    var THEME_KEY = 'theme';
+    var CHANGELOG_KEY = 'changelog-hidden';
+
+
+    /* ------------------------------------------------------------------
+       Small helpers
+       ------------------------------------------------------------------ */
+
+    var root = document.documentElement;
+    var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+    var motionQuery = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+
+    // querySelectorAll as a normal array
+    function $$(selector, context) {
+        return Array.prototype.slice.call((context || document).querySelectorAll(selector));
     }
-}
 
-// 'dark' or 'light', whatever the device is set to right now
-function getSystemTheme() {
-    return systemDarkQuery.matches ? 'dark' : 'light';
-}
-
-// 'system', 'light' or 'dark' (what the visitor picked)
-function getCurrentThemeChoice() {
-    const choice = document.documentElement.getAttribute('data-theme-choice');
-    return choice === 'light' || choice === 'dark' ? choice : 'system';
-}
-
-function getSavedThemeChoice() {
-    try {
-        const saved = localStorage.getItem(THEME_KEY);
-        return saved === 'light' || saved === 'dark' ? saved : 'system';
-    } catch (e) {
-        return 'system'; // storage blocked (some private/incognito modes): follow the device
+    // localStorage can be blocked (some private/incognito modes), so never let it crash the page
+    function storageGet(key) {
+        try { return localStorage.getItem(key); } catch (e) { return null; }
     }
-}
 
-function saveThemeChoice(choice) {
-    try {
-        if (choice === 'system') {
-            localStorage.removeItem(THEME_KEY);
-        } else {
-            localStorage.setItem(THEME_KEY, choice);
-        }
-    } catch (e) {
-        // storage blocked: the choice still works until the tab is closed
+    function storageSet(key, value) {
+        try {
+            if (value === null) { localStorage.removeItem(key); } else { localStorage.setItem(key, value); }
+        } catch (e) { /* the choice still works until the tab is closed */ }
     }
-}
 
-// The first tap always visibly changes the page:
-// device dark  -> Auto, Light, Dark, Auto...
-// device light -> Auto, Dark, Light, Auto...
-function nextThemeChoice(choice) {
-    const system = getSystemTheme();
-    const opposite = system === 'dark' ? 'light' : 'dark';
-
-    if (choice === 'system') return opposite;
-    if (choice === opposite) return system;
-    return 'system';
-}
-
-function applyTheme(choice) {
-    const htmlElement = document.documentElement;
-    const theme = choice === 'system' ? getSystemTheme() : choice;
-
-    htmlElement.setAttribute('data-theme', theme);         // what the CSS uses
-    htmlElement.setAttribute('data-theme-choice', choice); // which icon to show
-
-    updateThemeToggleLabel(choice, theme);
-    updateBrowserBarColor();
-}
-
-// Hover tooltip (desktop) + screen-reader label (VoiceOver / TalkBack / Narrator)
-function updateThemeToggleLabel(choice, theme) {
-    const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
-
-    const next = nextThemeChoice(choice);
-    const current = choice === 'system'
-        ? 'Auto (' + theme + ', matches your device)'
-        : THEME_NAMES[choice] + ' mode';
-    const upcoming = next === 'system'
-        ? 'Auto (match your device)'
-        : THEME_NAMES[next] + ' mode';
-    const label = 'Theme: ' + current + '. Switch to ' + upcoming;
-
-    themeToggle.setAttribute('title', label);
-    themeToggle.setAttribute('aria-label', label);
-}
-
-// Short note under the button after a tap, since phones never show tooltips
-function showThemeStatus(choice) {
-    const status = document.getElementById('themeStatus');
-    if (!status) return;
-
-    status.textContent = choice === 'system'
-        ? 'Auto: matches your device'
-        : THEME_NAMES[choice] + ' mode';
-    status.classList.add('is-visible');
-
-    clearTimeout(themeStatusTimer);
-    themeStatusTimer = setTimeout(function() {
-        status.classList.remove('is-visible');
-    }, 1800);
-}
-
-// Matches the phone's browser bar (Android Chrome, Samsung Internet, iOS Safari)
-// to the header color defined in the CSS (--frame-solid)
-function updateBrowserBarColor() {
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (!meta) return;
-
-    const color = getComputedStyle(document.documentElement)
-        .getPropertyValue('--frame-solid')
-        .trim();
-    if (color) {
-        meta.setAttribute('content', color);
+    function prefersReducedMotion() {
+        return !!(motionQuery && motionQuery.matches);
     }
-}
 
-// Kept so window.Portfolio.setTheme('light' | 'dark' | 'system') still works
-function setTheme(theme, save = false) {
-    const choice = theme === 'light' || theme === 'dark' ? theme : 'system';
-    if (save) {
-        saveThemeChoice(choice);
+    // Jump to the top without the smooth-scroll animation
+    function jumpToTop() {
+        var previous = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        window.scrollTo(0, 0);
+        root.style.scrollBehavior = previous;
     }
-    applyTheme(choice);
-}
 
-// Visitor Counter (LocalStorage)
+    function smoothToTop() {
+        window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    }
 
-
-/**
- * Track visitor count using Lambda function
- */
-function trackVisitor() {
-  fetch('https://krjhjjpql3.execute-api.us-east-1.amazonaws.com/count')
-    .then(response => response.json())
-    .then(data => {
-      const countElement = document.getElementById('visitorCount');
-      if (countElement) {
-        countElement.textContent = data.views;
-      }
-      console.log('Visitor count updated:', data.views);
-    })
-    .catch(error => {
-      console.error('Error tracking visitor:', error);
-      const countElement = document.getElementById('visitorCount');
-      if (countElement) {
-        countElement.textContent = '—';
-      }
-    });
-}
-
-
-// ============================================
-// Navigation
-// ============================================
-
-function initNavigation() {
-    const mobileToggle = document.getElementById('mobileToggle');
-    const navMenu = document.getElementById('navMenu');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    // Mobile menu toggle
-    if (mobileToggle && navMenu) {
-        mobileToggle.addEventListener('click', function() {
-            mobileToggle.classList.toggle('active');
-            navMenu.classList.toggle('active');
-            // Tell screen readers whether the menu is open
-            mobileToggle.setAttribute('aria-expanded', navMenu.classList.contains('active'));
-        });
-        
-        // Close menu when link clicked
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                mobileToggle.classList.remove('active');
-                navMenu.classList.remove('active');
-                mobileToggle.setAttribute('aria-expanded', 'false');
+    // Run a function at most once per screen refresh (for scroll listeners)
+    function rafThrottle(fn) {
+        var waiting = false;
+        return function () {
+            if (waiting) { return; }
+            waiting = true;
+            window.requestAnimationFrame(function () {
+                waiting = false;
+                fn();
             });
-        });
-    }
-    
-    // Update active nav link on scroll (at most once per frame, for smooth phone scrolling)
-    updateActiveNavLink();
-    window.addEventListener('scroll', rafThrottle(updateActiveNavLink));
-}
-
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
-    
-    let currentSection = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (window.pageYOffset >= sectionTop - 200) {
-            currentSection = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === currentSection) {
-            link.classList.add('active');
-        }
-    });
-}
-
-// ============================================
-// Smooth Scrolling
-// ============================================
-
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
-            
-            if (href === '#' || !href) return;
-            
-            e.preventDefault();
-            
-            const target = document.querySelector(href);
-            if (!target) return;
-            
-            const navHeight = document.querySelector('.navbar').offsetHeight;
-            const targetPosition = target.offsetTop - navHeight - 20;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        });
-    });
-}
-
-// ============================================
-// Back-to-Top Arrow
-// ============================================
-
-function initBackToTop() {
-    const backToTop = document.getElementById('backToTop');
-    if (!backToTop) return;
-    
-    const SHOW_AFTER_PX = 400; // how far down (in pixels) before the arrow appears
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
-    const updateBackToTop = () => {
-        backToTop.classList.toggle('is-visible', window.pageYOffset > SHOW_AFTER_PX);
-    };
-    
-    // Correct state on load (e.g. page refreshed halfway down)
-    updateBackToTop();
-    window.addEventListener('scroll', rafThrottle(updateBackToTop));
-    
-    backToTop.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: reduceMotion.matches ? 'auto' : 'smooth'
-        });
-    });
-}
-
-// ============================================
-// Form Handling
-// ============================================
-
-function initFormHandling() {
-    const contactForm = document.getElementById('contactForm');
-    
-    if (!contactForm) return;
-    
-    contactForm.addEventListener('submit', handleFormSubmit);
-}
-
-function handleFormSubmit(e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formMessage = document.getElementById('formMessage');
-    const submitButton = form.querySelector('button[type="submit"]');
-    
-    // Get form data
-    const formData = {
-        name: document.getElementById('name').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        subject: document.getElementById('subject').value.trim(),
-        message: document.getElementById('message').value.trim(),
-    };
-    
-    // Validate form
-    if (!validateForm(formData)) {
-        showFormMessage('Please fill in all fields correctly.', 'error', formMessage);
-        return;
-    }
-    
-    // Disable button during submission
-    const originalText = submitButton.textContent;
-    submitButton.disabled = true;
-    submitButton.textContent = 'Sending...';
-    
-    // Simulate form submission
-    setTimeout(() => {
-        handleFormSuccess(form, formMessage, submitButton, originalText);
-    }, 1500);
-    
-    // Optional: Send to backend
-    // sendFormToBackend(formData);
-}
-
-function validateForm(data) {
-    if (!data.name || data.name.length < 2) {
-        return false;
-    }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(data.email)) {
-        return false;
-    }
-    
-    if (!data.subject || data.subject.length < 3) {
-        return false;
-    }
-    
-    if (!data.message || data.message.length < 10) {
-        return false;
-    }
-    
-    return true;
-}
-
-function handleFormSuccess(form, formMessage, submitButton, originalText) {
-    // Show success message
-    showFormMessage(
-        '✓ Message sent successfully! I\'ll get back to you within 24 hours.',
-        'success',
-        formMessage
-    );
-    
-    // Log form data
-    console.log('Form submitted:', {
-        name: form.name.value,
-        email: form.email.value,
-        subject: form.subject.value,
-        message: form.message.value,
-        timestamp: new Date().toISOString(),
-    });
-    
-    // Reset form
-    form.reset();
-    
-    // Re-enable button
-    submitButton.disabled = false;
-    submitButton.textContent = originalText;
-    
-    // Hide message after 5 seconds
-    setTimeout(() => {
-        formMessage.style.display = 'none';
-    }, 5000);
-}
-
-function showFormMessage(message, type, element) {
-    if (!element) return;
-    
-    element.textContent = message;
-    element.className = `form-message ${type}`;
-    element.style.display = 'block';
-    
-    // Scroll to message
-    element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-/**
- * Optional: Send form data to backend
- * Uncomment and configure to integrate with your backend
- */
-function sendFormToBackend(formData) {
-    // Using Formspree (free email service)
-    /*
-    fetch('https://formspree.io/f/YOUR_FORM_ID', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.ok) {
-            console.log('Form sent successfully');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-    */
-    
-    // Or using your own Lambda function
-    /*
-    fetch('https://your-lambda-function-url/contact', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => console.log('Success:', data))
-    .catch(error => console.error('Error:', error));
-    */
-}
-
-// ============================================
-// Intersection Observer for Animations
-// ============================================
-
-function initIntersectionObserver() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-    
-    // Observe skill badges
-    const skillBadges = document.querySelectorAll('.skill-badge');
-    skillBadges.forEach(badge => {
-        badge.style.opacity = '0';
-        badge.style.transform = 'translateY(10px)';
-        badge.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        observer.observe(badge);
-    });
-}
-
-// ============================================
-// Scroll-Based Animations
-// ============================================
-
-function initScrollAnimations() {
-    const proficiencyBars = document.querySelectorAll('.proficiency-fill');
-    
-    if (proficiencyBars.length === 0) return;
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.transition = 'width 1s ease-out';
-                // Width is already set in CSS, just trigger animation
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    
-    proficiencyBars.forEach(bar => {
-        observer.observe(bar);
-    });
-}
-
-// ============================================
-// Resume Download
-// ============================================
-
-function initResume() {
-    const downloadButtons = document.querySelectorAll('#downloadResume, #downloadResumeButton');
-    
-    downloadButtons.forEach(button => {
-        button.addEventListener('click', handleResumeDownload);
-    });
-}
-
-function handleResumeDownload(e) {
-    e.preventDefault();
-    
-    // This is a placeholder - implement actual PDF download
-    const message = 'Resume download feature will be available soon! Check back later or contact me for a copy.';
-    
-    // Show alert
-    alert(message);
-    
-    // Log download attempt
-    console.log('Resume download requested at', new Date().toISOString());
-    
-    // Optional: Track download attempt
-    // trackEvent('resume_download_clicked');
-    
-    // In production, implement one of these options:
-    // 1. Create PDF on backend and serve via Lambda
-    // 2. Use PDF library like jsPDF to generate on client-side
-    // 3. Link to PDF file in S3
-    
-    /*
-    // Example: Download PDF from S3
-    const resumeUrl = 'https://your-s3-bucket.s3.amazonaws.com/resume.pdf';
-    const link = document.createElement('a');
-    link.href = resumeUrl;
-    link.download = 'Alex_Chen_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    */
-}
-
-// ============================================
-// Analytics & Tracking (Optional)
-// ============================================
-
-function trackEvent(eventName, eventData = {}) {
-    // Google Analytics
-    if (window.gtag) {
-        gtag('event', eventName, eventData);
-    }
-    
-    // Custom tracking (e.g., send to Lambda)
-    console.log(`Event: ${eventName}`, eventData);
-}
-
-// Track page view
-window.addEventListener('load', function() {
-    trackEvent('page_view', {
-        page_title: document.title,
-        page_location: window.location.href,
-    });
-});
-
-// Track time on page
-let timeOnPage = 0;
-setInterval(() => {
-    timeOnPage++;
-}, 1000);
-
-window.addEventListener('beforeunload', function() {
-    if (timeOnPage > 10) { // Only track if spent > 10 seconds
-        trackEvent('engagement', {
-            time_on_page: timeOnPage,
-            page: document.title,
-        });
-    }
-});
-
-// ============================================
-// Keyboard Shortcuts
-// ============================================
-
-document.addEventListener('keydown', function(event) {
-    // Skip if user is typing in form
-    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
-        return;
-    }
-    
-    // Ctrl/Cmd + K: Focus on navigation (for accessibility)
-    if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
-        event.preventDefault();
-        const firstNavLink = document.querySelector('.nav-link');
-        if (firstNavLink) firstNavLink.focus();
-    }
-    
-    // Escape: Close mobile menu
-    if (event.key === 'Escape') {
-        const mobileToggle = document.getElementById('mobileToggle');
-        const navMenu = document.getElementById('navMenu');
-        if (mobileToggle && navMenu && navMenu.classList.contains('active')) {
-            mobileToggle.classList.remove('active');
-            navMenu.classList.remove('active');
-            mobileToggle.setAttribute('aria-expanded', 'false');
-        }
-    }
-});
-
-// ============================================
-// Performance Monitoring
-// ============================================
-
-// Log page load time
-window.addEventListener('load', function() {
-    if (window.performance && window.performance.timing) {
-        const perfData = window.performance.timing;
-        const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-        console.log('Page loaded in', pageLoadTime, 'ms');
-        
-        // Track performance
-        trackEvent('page_load', {
-            load_time: pageLoadTime,
-        });
-    }
-});
-
-// ============================================
-// Utility Functions
-// ============================================
-
-/**
- * Copy text to clipboard
- */
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text)
-        .then(() => {
-            console.log('Copied to clipboard');
-            showNotification('Copied to clipboard!');
-        })
-        .catch(err => {
-            console.error('Failed to copy:', err);
-            showNotification('Failed to copy', 'error');
-        });
-}
-
-/**
- * Show temporary notification
- */
-function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        padding: 12px 24px;
-        background: ${type === 'error' ? '#ef4444' : '#10b981'};
-        color: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        animation: slideInUp 0.3s ease-out;
-    `;
-    
-    document.body.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.style.animation = 'slideOutDown 0.3s ease-out';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
-    }, 3000);
-}
-
-/**
- * Check if element is in viewport
- */
-function isInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-/**
- * Debounce function for scroll events
- */
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
         };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
+    }
 
-/**
- * Throttle function for performance
- */
-function throttle(func, limit) {
-    let inThrottle;
-    return function(...args) {
-        if (!inThrottle) {
-            func.apply(this, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
+    function currentHashId() {
+        try { return decodeURIComponent(window.location.hash.slice(1)); } catch (e) { return ''; }
+    }
 
-/**
- * Run a function at most once per screen refresh.
- * Used for scroll listeners so phones don't redo the same work
- * dozens of times per second while you scroll.
- */
-function rafThrottle(func) {
-    let scheduled = false;
-    return function(...args) {
-        if (scheduled) return;
-        scheduled = true;
-        requestAnimationFrame(() => {
-            scheduled = false;
-            func.apply(this, args);
+
+    /* ==================================================================
+       PART 1 — runs immediately, before the page is drawn
+       ================================================================== */
+
+    root.classList.add('js');
+    applyTheme(getSavedTheme());
+    root.setAttribute('data-view', VIEWS.indexOf(currentHashId()) !== -1 ? currentHashId() : DEFAULT_VIEW);
+
+
+    /* ==================================================================
+       PART 2 — runs after the HTML has loaded
+       ================================================================== */
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+
+    function init() {
+        initThemeSwitch();
+        initRouter();
+        initCounts();
+        initDurations();
+        initPipelines();
+        initCertFilters();
+        initChangelog();
+        initCopyButtons();
+        initExternalLinks();
+        initBackToTop();
+        loadVisitorCount();
+        setYear();
+    }
+
+
+    /* ------------------------------------------------------------------
+       Theme: Auto (follows the device) / Light / Dark
+       ------------------------------------------------------------------ */
+
+    function getSavedTheme() {
+        var saved = storageGet(THEME_KEY);
+        return saved === 'light' || saved === 'dark' ? saved : 'system';
+    }
+
+    function resolveTheme(choice) {
+        if (choice === 'light' || choice === 'dark') { return choice; }
+        return darkQuery && darkQuery.matches ? 'dark' : 'light';
+    }
+
+    function applyTheme(choice) {
+        root.setAttribute('data-theme', resolveTheme(choice));   // what the CSS reads
+        root.setAttribute('data-theme-choice', choice);          // which button is pressed
+        syncThemeButtons(choice);
+        updateBrowserBarColor();
+    }
+
+    function syncThemeButtons(choice) {
+        $$('.theme-btn').forEach(function (btn) {
+            btn.setAttribute('aria-pressed', String(btn.getAttribute('data-theme-option') === choice));
         });
-    };
-}
+    }
 
-// ============================================
-// Error Handling
-// ============================================
+    // Tints the phone's browser bar (Android Chrome, Safari) to match the page
+    function updateBrowserBarColor() {
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (!meta) { return; }
+        var color = getComputedStyle(root).getPropertyValue('--bg').trim();
+        if (color) { meta.setAttribute('content', color); }
+    }
 
-window.addEventListener('error', function(event) {
-    console.error('Global error:', event.error);
-    // Could send to error tracking service
-});
+    function initThemeSwitch() {
+        syncThemeButtons(root.getAttribute('data-theme-choice') || 'system');
 
-window.addEventListener('unhandledrejection', function(event) {
-    console.error('Unhandled promise rejection:', event.reason);
-    // Could send to error tracking service
-});
+        $$('.theme-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                var choice = btn.getAttribute('data-theme-option');
+                storageSet(THEME_KEY, choice === 'system' ? null : choice);
+                applyTheme(choice);
+            });
+        });
 
-// ============================================
-// Print Functionality
-// ============================================
+        // While on Auto, follow the device live (e.g. a phone that turns dark at sunset)
+        if (darkQuery) {
+            var onDeviceChange = function () {
+                if (root.getAttribute('data-theme-choice') === 'system') { applyTheme('system'); }
+            };
+            if (darkQuery.addEventListener) {
+                darkQuery.addEventListener('change', onDeviceChange);
+            } else if (darkQuery.addListener) {
+                darkQuery.addListener(onDeviceChange);   // older Safari
+            }
+        }
+    }
 
-function printPage() {
-    window.print();
-}
 
-// Make print function globally available
-window.printPortfolio = printPage;
+    /* ------------------------------------------------------------------
+       Page switching (router)
+       The part after # in the address decides what is shown:
+         #experience      → Experience page
+         #certifications  → Certifications page
+         #stack           → Overview page, scrolled to the Stack section
+         #contact, #main  → stays on the current page and scrolls there
+       Because it uses the address bar, the Back button works and
+       recruiters can share a direct link (e.g. yoursite.com/#certifications).
+       ------------------------------------------------------------------ */
 
-// ============================================
-// Export Functions
-// ============================================
+    function initRouter() {
+        route(true);
+        window.addEventListener('hashchange', function () { route(false); });
 
-// Make important functions available globally if needed
-window.Portfolio = {
-    setTheme: setTheme,
-    copyToClipboard: copyToClipboard,
-    trackEvent: trackEvent,
-    printPage: printPage,
-};
+        // Clicking the link for the page you're already on scrolls back to the top
+        document.addEventListener('click', function (event) {
+            var link = event.target.closest ? event.target.closest('a[href^="#"]') : null;
+            if (!link) { return; }
+            var id = link.getAttribute('href').slice(1);
+            var hash = currentHashId();
+            var alreadyThere = VIEWS.indexOf(id) !== -1 &&
+                root.getAttribute('data-view') === id &&
+                (hash === id || (hash === '' && id === DEFAULT_VIEW));
+            if (alreadyThere) {
+                event.preventDefault();
+                smoothToTop();
+            }
+        });
+    }
 
-console.log('Portfolio website initialized successfully!');
-console.log('Theme:', getCurrentThemeChoice());
-console.log('Visitor count:', localStorage.getItem('visitCount') || 1);
+    function route(isFirstLoad) {
+        var id = currentHashId();
+        var previousView = root.getAttribute('data-view');
+        var view = DEFAULT_VIEW;
+        var target = null;
+
+        if (VIEWS.indexOf(id) !== -1) {
+            view = id;
+        } else if (id) {
+            target = document.getElementById(id);
+            var owner = target && target.closest ? target.closest('[data-view]') : null;
+            if (owner) {
+                view = owner.getAttribute('data-view');            // a section inside a page
+            } else if (target) {
+                view = previousView || DEFAULT_VIEW;               // e.g. #contact: shared by every page
+            }
+        }
+
+        var changed = view !== previousView;
+        showView(view);
+
+        if (isFirstLoad) {
+            // The browser jumps to #section by itself, but web fonts finishing a moment
+            // later can push the section down. Line it up again once fonts are ready.
+            if (target && document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(function () {
+                    target.scrollIntoView({ block: 'start', behavior: 'auto' });
+                });
+            }
+            return;
+        }
+
+        if (target) {
+            // The browser can't scroll to a section that was hidden, so do it now that it's visible
+            if (changed) {
+                target.scrollIntoView({ block: 'start', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+            }
+            return;
+        }
+
+        if (changed) {
+            jumpToTop();
+        } else {
+            smoothToTop();
+        }
+
+        // Move keyboard / screen-reader focus to the new page's heading
+        var heading = document.querySelector('#view-' + view + ' h1');
+        if (heading) {
+            try { heading.focus({ preventScroll: true }); } catch (e) { heading.focus(); }
+        }
+    }
+
+    function showView(view) {
+        root.setAttribute('data-view', view);
+        document.title = VIEW_TITLES[view] || VIEW_TITLES[DEFAULT_VIEW];
+
+        $$('.nav-link[data-nav]').forEach(function (link) {
+            if (link.getAttribute('data-nav') === view) {
+                link.setAttribute('aria-current', 'page');
+                keepTabVisible(link);
+            } else {
+                link.removeAttribute('aria-current');
+            }
+        });
+    }
+
+    // On phones the tabs scroll sideways; make sure the active one is on screen
+    function keepTabVisible(link) {
+        var nav = link.parentElement;
+        if (!nav || nav.scrollWidth <= nav.clientWidth) { return; }
+        var offset = link.getBoundingClientRect().left - nav.getBoundingClientRect().left;
+        nav.scrollLeft += offset - (nav.clientWidth - link.offsetWidth) / 2;
+    }
+
+
+    /* ------------------------------------------------------------------
+       Automatic counts
+       Every element with data-count="certifications" or "experience"
+       shows the real number, so adding a certificate updates the menu,
+       the Overview text and the filter buttons by itself.
+       ------------------------------------------------------------------ */
+
+    function initCounts() {
+        var counts = {
+            certifications: $$('.cert').length,
+            experience: $$('.role-item').length
+        };
+
+        $$('[data-count]').forEach(function (el) {
+            var key = el.getAttribute('data-count');
+            if (Object.prototype.hasOwnProperty.call(counts, key)) {
+                el.textContent = counts[key];
+            }
+        });
+    }
+
+
+    /* ------------------------------------------------------------------
+       Job durations ("2 yrs 7 mos"), counted like LinkedIn does:
+       both the first and the last month are included.
+       Uses data-start="YYYY-MM" and optional data-end="YYYY-MM".
+       No data-end means "until today".
+       ------------------------------------------------------------------ */
+
+    function initDurations() {
+        var now = new Date();
+        var today = { y: now.getFullYear(), m: now.getMonth() + 1 };
+
+        $$('.role-duration').forEach(function (el) {
+            var start = parseMonth(el.getAttribute('data-start'));
+            var end = parseMonth(el.getAttribute('data-end')) || today;
+            if (!start) { return; }
+
+            var months = (end.y - start.y) * 12 + (end.m - start.m) + 1;
+            if (months > 0) { el.textContent = formatMonths(months); }
+        });
+    }
+
+    function parseMonth(value) {
+        var match = /^(\d{4})-(\d{2})$/.exec(value || '');
+        return match ? { y: Number(match[1]), m: Number(match[2]) } : null;
+    }
+
+    function formatMonths(total) {
+        var years = Math.floor(total / 12);
+        var months = total % 12;
+        var parts = [];
+        if (years) { parts.push(years + (years === 1 ? ' yr' : ' yrs')); }
+        if (months) { parts.push(months + (months === 1 ? ' mo' : ' mos')); }
+        return parts.join(' ');
+    }
+
+
+    /* ------------------------------------------------------------------
+       Project milestones
+       Writes "2 of 4 done" next to each project and adds a hidden
+       "Done:", "In progress:" or "Planned:" for screen readers.
+       ------------------------------------------------------------------ */
+
+    function initPipelines() {
+        $$('.project').forEach(function (project) {
+            var steps = $$('.pipeline li', project);
+            var done = 0;
+
+            steps.forEach(function (step) {
+                var state = step.getAttribute('data-state');
+                if (state === 'done') { done += 1; }
+
+                if (STEP_LABELS[state]) {
+                    var label = document.createElement('span');
+                    label.className = 'sr-only';
+                    label.textContent = STEP_LABELS[state] + ': ';
+                    step.insertBefore(label, step.firstChild);
+                }
+            });
+
+            var progress = project.querySelector('.project-progress');
+            if (progress && steps.length) {
+                progress.textContent = done + ' of ' + steps.length + ' done';
+            }
+        });
+    }
+
+
+    /* ------------------------------------------------------------------
+       Certification filters (All / Microsoft / AWS / Oracle / ISC2)
+       A button's data-filter must match a certificate's data-issuer.
+       ------------------------------------------------------------------ */
+
+    function initCertFilters() {
+        var chips = $$('.chip[data-filter]');
+        var certs = $$('.cert');
+        var status = document.getElementById('certStatus');
+        if (!chips.length || !certs.length) { return; }
+
+        function countFor(filter) {
+            if (filter === 'all') { return certs.length; }
+            return certs.filter(function (cert) {
+                return cert.getAttribute('data-issuer') === filter;
+            }).length;
+        }
+
+        function applyFilter(filter) {
+            var shown = 0;
+
+            certs.forEach(function (cert) {
+                var match = filter === 'all' || cert.getAttribute('data-issuer') === filter;
+                cert.hidden = !match;
+                if (match) { shown += 1; }
+            });
+
+            chips.forEach(function (chip) {
+                chip.setAttribute('aria-pressed', String(chip.getAttribute('data-filter') === filter));
+            });
+
+            if (status) {
+                status.textContent = filter === 'all'
+                    ? 'Showing all ' + certs.length + ' certifications'
+                    : 'Showing ' + shown + ' of ' + certs.length + ' certifications';
+            }
+        }
+
+        chips.forEach(function (chip) {
+            var filter = chip.getAttribute('data-filter');
+            var count = countFor(filter);
+            var countEl = chip.querySelector('.chip-count');
+
+            if (countEl) { countEl.textContent = count; }
+            if (count === 0 && filter !== 'all') { chip.hidden = true; }   // hide empty issuers
+
+            chip.addEventListener('click', function () { applyFilter(filter); });
+        });
+
+        applyFilter('all');
+    }
+
+
+    /* ------------------------------------------------------------------
+       "Recent changes" card
+       Remembers that a visitor hid it. When you post something new and
+       change data-version in the HTML, it shows again for everyone.
+       ------------------------------------------------------------------ */
+
+    function initChangelog() {
+        var card = document.getElementById('changelog');
+        if (!card) { return; }
+
+        var version = card.getAttribute('data-version') || '1';
+        if (storageGet(CHANGELOG_KEY) === version) {
+            card.hidden = true;
+            return;
+        }
+
+        var hideButton = document.getElementById('changelogHide');
+        if (!hideButton) { return; }
+
+        hideButton.addEventListener('click', function () {
+            storageSet(CHANGELOG_KEY, version);
+            card.hidden = true;
+
+            // The button just disappeared, so move focus somewhere sensible
+            var next = document.getElementById('now-title');
+            if (next) {
+                next.setAttribute('tabindex', '-1');
+                try { next.focus({ preventScroll: true }); } catch (e) { next.focus(); }
+            }
+        });
+    }
+
+
+    /* ------------------------------------------------------------------
+       Copy email button + small pop-up message
+       ------------------------------------------------------------------ */
+
+    function initCopyButtons() {
+        $$('[data-copy]').forEach(function (button) {
+            var originalText = button.textContent;
+            var resetTimer = null;
+
+            button.addEventListener('click', function () {
+                var text = button.getAttribute('data-copy');
+
+                copyText(text).then(function () {
+                    button.textContent = 'Copied';
+                    showToast('Copied ' + text);
+                    clearTimeout(resetTimer);
+                    resetTimer = setTimeout(function () { button.textContent = originalText; }, 2000);
+                }, function () {
+                    showToast('Copy didn\'t work here. Select the address and copy it manually.');
+                });
+            });
+        });
+    }
+
+    function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            return navigator.clipboard.writeText(text);
+        }
+
+        // Fallback for older browsers and pages opened without https
+        return new Promise(function (resolve, reject) {
+            var field = document.createElement('textarea');
+            field.value = text;
+            field.setAttribute('readonly', '');
+            field.style.position = 'fixed';
+            field.style.opacity = '0';
+            document.body.appendChild(field);
+            field.select();
+
+            var ok = false;
+            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+            document.body.removeChild(field);
+
+            if (ok) { resolve(); } else { reject(new Error('Copy failed')); }
+        });
+    }
+
+    var toastTimer = null;
+
+    function showToast(message) {
+        var toast = document.getElementById('toast');
+        if (!toast) { return; }
+
+        toast.textContent = message;
+        toast.classList.add('is-visible');
+
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () {
+            toast.classList.remove('is-visible');
+        }, 2400);
+    }
+
+
+    /* ------------------------------------------------------------------
+       Links that open a new tab: tell screen-reader users
+       (the little arrow icon is drawn by the CSS)
+       ------------------------------------------------------------------ */
+
+    function initExternalLinks() {
+        $$('a[target="_blank"]').forEach(function (link) {
+            var label = link.getAttribute('aria-label');
+
+            if (label) {
+                link.setAttribute('aria-label', label + ' (opens in a new tab)');
+            } else {
+                var note = document.createElement('span');
+                note.className = 'sr-only';
+                note.textContent = ' (opens in a new tab)';
+                link.appendChild(note);
+            }
+        });
+    }
+
+
+    /* ------------------------------------------------------------------
+       Back-to-top button: appears after scrolling down
+       ------------------------------------------------------------------ */
+
+    function initBackToTop() {
+        var button = document.getElementById('toTop');
+        if (!button) { return; }
+
+        var SHOW_AFTER_PX = 600;
+
+        var update = function () {
+            button.classList.toggle('is-visible', window.pageYOffset > SHOW_AFTER_PX);
+        };
+
+        update();
+        window.addEventListener('scroll', rafThrottle(update), { passive: true });
+        button.addEventListener('click', smoothToTop);
+    }
+
+
+    /* ------------------------------------------------------------------
+       Visitor counter (API Gateway + Lambda)
+       Shows the number in the footer. If the API is slow or down, the
+       line simply stays hidden instead of showing an error.
+       ------------------------------------------------------------------ */
+
+    function loadVisitorCount() {
+        var wrapper = document.getElementById('visits');
+        var number = document.getElementById('visitCount');
+        if (!wrapper || !number || !window.fetch) { return; }
+
+        var controller = window.AbortController ? new AbortController() : null;
+        var timer = controller ? setTimeout(function () { controller.abort(); }, VISITOR_TIMEOUT_MS) : null;
+
+        fetch(VISITOR_API, controller ? { signal: controller.signal } : {})
+            .then(function (response) {
+                if (!response.ok) { throw new Error('HTTP ' + response.status); }
+                return response.json();
+            })
+            .then(function (data) {
+                clearTimeout(timer);
+                var views = Number(data && data.views);
+                if (!isFinite(views) || views < 1) { throw new Error('Unexpected response'); }
+
+                number.textContent = views.toLocaleString();
+                wrapper.hidden = false;
+            })
+            .catch(function (error) {
+                clearTimeout(timer);
+                if (window.console) { console.warn('Visitor counter unavailable:', error.message || error); }
+            });
+    }
+
+
+    /* ------------------------------------------------------------------
+       Footer year
+       ------------------------------------------------------------------ */
+
+    function setYear() {
+        var year = document.getElementById('year');
+        if (year) { year.textContent = new Date().getFullYear(); }
+    }
+})();

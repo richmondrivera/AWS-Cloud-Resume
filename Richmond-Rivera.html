@@ -2,776 +2,508 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- viewport-fit=cover lets the page use the full screen on notched iPhones.
-         The CSS adds safe-area padding so nothing hides behind the notch or home bar. -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="DevOps Engineer Portfolio - Cloud Infrastructure, Kubernetes, AWS">
-    <!-- Tints the browser toolbar on Android Chrome and iOS Safari to match the header
-         (Richmond-Rivera.js updates this automatically when the theme changes) -->
-    <meta name="theme-color" content="#0c0c0e">
-    <!-- Tells browsers this site has its own light AND dark design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+    <title>Richmond Rivera — Cloud DevOps Engineer</title>
+    <meta name="description" content="Richmond Rivera, Cloud DevOps Engineer. Production support at TELUS Digital, 10 cloud certifications across Microsoft Azure, AWS and Oracle, and in-progress cloud and homelab projects.">
+    <meta name="theme-color" content="#f5f5f1">
     <meta name="color-scheme" content="light dark">
 
-    <!-- Sets the theme BEFORE the page is drawn, so dark-mode visitors never see a white flash.
-         Uses the visitor's saved choice, otherwise their device setting (Auto). -->
-    <script>
-        (function () {
-            var choice = null;
-            try { choice = localStorage.getItem('theme'); } catch (e) {}
-            if (choice !== 'light' && choice !== 'dark') { choice = 'system'; }
-            var prefersDark = !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            var theme = choice === 'system' ? (prefersDark ? 'dark' : 'light') : choice;
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.setAttribute('data-theme-choice', choice);
-        })();
-    </script>
+    <!-- Link previews (LinkedIn, Slack, Messenger, etc.) -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Richmond Rivera — Cloud DevOps Engineer">
+    <meta property="og:description" content="Production support engineer moving into cloud infrastructure and AI. Experience, certifications and current projects.">
 
-    <title>Richmond Rivera - Cloud DevOps Engineer</title>
-
-    <link rel="stylesheet" href="Richmond-Rivera.css">
     <link rel="icon" href="software-development.png">
     <link rel="apple-touch-icon" href="software-development.png">
+
+    <!-- Fonts: Instrument Sans (reading text) + Martian Mono (name, navigation, codes) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=Martian+Mono:wdth,wght@75..112.5,300..600&display=swap">
+
+    <link rel="stylesheet" href="Richmond-Rivera.css">
+
+    <!-- Loaded here in <head> on purpose (no "defer"): the first lines of the file
+         set the theme and the visible page BEFORE anything is drawn, so there is
+         no white flash in dark mode. Everything else waits for the page to load. -->
+    <script src="Richmond-Rivera.js"></script>
 </head>
 
 <body>
-    <!-- Skip to main content link (accessibility) - must be the first focusable element -->
-    <a href="#main" class="skip-link">Skip to main content</a>
+    <a href="#main" class="skip-link">Skip to content</a>
 
-    <!-- Header Navigation (now contains ONLY the navbar so it can stay pinned while you scroll) -->
-    <header class="header" id="header">
-        <nav class="navbar" aria-label="Primary">
-            <div class="nav-container">
-                <!-- Logo -->
-                <div class="logo">
-                    <span class="logo-icon" aria-hidden="true">⚙</span>
-                </div>
+    <div class="shell">
 
-                <!-- Mobile Menu Toggle -->
-                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu" aria-controls="navMenu" aria-expanded="false">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+        <!-- =====================================================
+             SIDEBAR (desktop) / TOP BAR (phones and tablets)
+             ===================================================== -->
+        <aside class="sidebar" aria-label="Site">
+            <a class="brand" href="#overview">
+                <span class="brand-name">Richmond Rivera</span>
+                <span class="brand-role">Cloud DevOps Engineer</span>
+            </a>
+
+            <!-- Pages. Each one is a separate "view" further down in this file. -->
+            <nav class="nav" aria-label="Pages">
+                <a class="nav-link" href="#overview" data-nav="overview">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    <span>Overview</span>
+                </a>
+                <a class="nav-link" href="#experience" data-nav="experience">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <span>Experience</span>
+                    <span class="nav-count" data-count="experience">3</span>
+                </a>
+                <a class="nav-link" href="#certifications" data-nav="certifications">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="9" r="6"/><path d="M8.5 14 7 22l5-3 5 3-1.5-8"/></svg>
+                    <span>Certifications</span>
+                    <span class="nav-count" data-count="certifications">10</span>
+                </a>
+            </nav>
+
+            <!-- Shortcuts to sections on the Overview page (desktop only) -->
+            <nav class="nav-sub" aria-label="Overview sections">
+                <a href="#now-building">Now building</a>
+                <a href="#stack">Stack</a>
+                <a href="#education">Education</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="sidebar-meta">
+                <!-- ✏️ Change or delete this line when you are not job hunting -->
+                <p class="status"><span class="status-dot" aria-hidden="true"></span>Open to Cloud and DevOps roles</p>
+                <p class="sidebar-email">
+                    For roles and referrals, email me at
+                    <a href="mailto:richmondrivera007@gmail.com">richmondrivera007@gmail.com</a>
+                </p>
+            </div>
+
+            <!-- Theme: Auto (follows device) / Light / Dark -->
+            <div class="theme-switch" role="group" aria-label="Color theme">
+                <button type="button" class="theme-btn" data-theme-option="system" aria-pressed="true" title="Match my device">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
+                    <span class="sr-only">Match my device</span>
                 </button>
+                <button type="button" class="theme-btn" data-theme-option="light" aria-pressed="false" title="Light">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                    <span class="sr-only">Light</span>
+                </button>
+                <button type="button" class="theme-btn" data-theme-option="dark" aria-pressed="false" title="Dark">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                    <span class="sr-only">Dark</span>
+                </button>
+            </div>
+        </aside>
 
-                <!-- Navigation Menu -->
-                <ul class="nav-menu" id="navMenu">
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#skills" class="nav-link">Skills</a></li>
-                    <li><a href="#experience" class="nav-link">Experience</a></li>
-                    <li><a href="#education" class="nav-link">Education</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
-                    <li><a href="#blogs" class="nav-link">Blogs</a></li>
-                </ul>
+        <!-- =====================================================
+             MAIN CONTENT
+             Only one .view is shown at a time. The address bar
+             decides which: #overview, #experience, #certifications
+             ===================================================== -->
+        <div class="content">
+            <main id="main" tabindex="-1">
 
-                <!-- Theme Toggle & Visitor Counter -->
-                <div class="header-controls">
-                    <!-- Theme button: cycles Auto (follows device) / Light / Dark.
-                         Its tooltip and label are updated by Richmond-Rivera.js -->
-                    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Change theme" title="Change theme">
-                        <span class="theme-icon" aria-hidden="true">
-                            <!-- Auto: half-filled circle -->
-                            <svg class="icon-system" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-                                <circle cx="12" cy="12" r="9"/>
-                                <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none"/>
-                            </svg>
-                            <!-- Light: sun -->
-                            <svg class="icon-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-                                <circle cx="12" cy="12" r="4"/>
-                                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-                            </svg>
-                            <!-- Dark: moon -->
-                            <svg class="icon-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" focusable="false">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                            </svg>
-                        </span>
-                    </button>
-                    <!-- Short on-screen note after tapping (phones have no hover tooltips) -->
-                    <span class="theme-status" id="themeStatus" role="status" aria-live="polite"></span>
-                    <div class="visitor-counter">
-                        <span class="counter-label">Visitors:</span>
-                        <span class="counter-number" id="visitorCount">1</span>
+                <!-- ================= VIEW: OVERVIEW ================= -->
+                <section class="view" id="view-overview" data-view="overview" aria-labelledby="overview-title">
+
+                    <header class="intro">
+                        <h1 class="name" id="overview-title" tabindex="-1">Richmond Rivera</h1>
+                        <p class="role">Cloud DevOps Engineer</p>
+                        <div class="bio">
+                            <p>I keep enterprise production systems healthy as an Application Support Engineer at TELUS Digital, and I'm taking that experience into cloud infrastructure and AI.</p>
+                            <p>Three years in production support taught me where operations break. Now I fix those bottlenecks at the root with automation, observability and infrastructure as code, and I try every idea in my homelab first.</p>
+                        </div>
+                        <ul class="quick-links">
+                            <li><a href="mailto:richmondrivera007@gmail.com">Email</a></li>
+                            <li><a href="https://www.linkedin.com/in/richmondrivera007/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                            <li><a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                            <!-- ✏️ Upload your résumé next to index.html with exactly this file name -->
+                            <li><a href="Richmond-Rivera-Resume.pdf" download>Résumé (PDF)</a></li>
+                        </ul>
+                    </header>
+
+                    <!-- Recent changes card. When you add a new line, also change data-version
+                         to the newest date so visitors who hid the card see it again. -->
+                    <aside class="changelog" id="changelog" data-version="2026-04" aria-labelledby="changelog-title">
+                        <div class="changelog-head">
+                            <h2 id="changelog-title">Recent changes</h2>
+                            <button type="button" class="text-btn" id="changelogHide">Hide</button>
+                        </div>
+                        <ol class="changelog-list">
+                            <li><time datetime="2026-04">Apr 2026</time><span>Joined <strong>TELUS Digital</strong> as Application Support Engineer</span></li>
+                            <li><time datetime="2025-12">Dec 2025</time><span>Earned <strong>Azure Solutions Architect Expert</strong> (AZ-305)</span></li>
+                            <li><time datetime="2025-12">Dec 2025</time><span>Earned <strong>Azure Administrator Associate</strong> (AZ-104)</span></li>
+                            <li><time datetime="2025-09">Sep 2025</time><span>Earned <strong>AWS Certified AI Practitioner</strong> (AIF-C01)</span></li>
+                        </ol>
+                    </aside>
+
+                    <!-- ---------- Now building (current projects) ---------- -->
+                    <section class="row" id="now-building" aria-labelledby="now-title">
+                        <h2 class="row-label" id="now-title">Now building</h2>
+                        <div class="row-body">
+                            <p class="row-intro">Work in progress. Each step is a milestone, and the amber one is what I'm on right now.</p>
+
+                            <!-- ✏️ PROJECT TEMPLATE
+                                 Each milestone is an <li> with data-state="done", "running" or "pending".
+                                 Use exactly one "running" per project. Copy the whole <article> to add a project. -->
+                            <article class="project">
+                                <header class="project-head">
+                                    <h3 class="project-title">Cloud résumé on AWS</h3>
+                                    <span class="project-progress" aria-hidden="true"></span>
+                                </header>
+                                <p class="project-desc">The site you're reading: a static portfolio served from S3 and CloudFront, with a serverless visitor counter.</p>
+                                <ol class="pipeline" aria-label="Milestones for Cloud résumé on AWS">
+                                    <li data-state="done">Static site on S3 and CloudFront</li>
+                                    <li data-state="done">Visitor counter with API Gateway and Lambda</li>
+                                    <li data-state="running">Infrastructure as code with Terraform</li>
+                                    <li data-state="pending">Automated deploys with GitHub Actions</li>
+                                </ol>
+                                <footer class="project-foot">
+                                    <span class="project-stack">S3, CloudFront, API Gateway, Lambda</span>
+                                    <!-- ✏️ Replace with this project's repository URL -->
+                                    <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">Repository</a>
+                                </footer>
+                            </article>
+
+                            <article class="project">
+                                <header class="project-head">
+                                    <h3 class="project-title">Homelab automation</h3>
+                                    <span class="project-progress" aria-hidden="true"></span>
+                                </header>
+                                <p class="project-desc">A Linux homelab where I automate the operations work I used to do by hand.</p>
+                                <ol class="pipeline" aria-label="Milestones for Homelab automation">
+                                    <li data-state="done">Linux servers set up and hardened</li>
+                                    <li data-state="running">Provisioning with Ansible playbooks</li>
+                                    <li data-state="pending">Metrics and alerts with Prometheus and Grafana</li>
+                                    <li data-state="pending">Kubernetes cluster for container workloads</li>
+                                </ol>
+                                <footer class="project-foot">
+                                    <span class="project-stack">Linux, Bash, Ansible, Prometheus, Grafana</span>
+                                    <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">Repository</a>
+                                </footer>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- ---------- Experience (short version; full version is its own page) ---------- -->
+                    <section class="row" id="experience-summary" aria-labelledby="exp-sum-title">
+                        <h2 class="row-label" id="exp-sum-title">Experience</h2>
+                        <div class="row-body">
+                            <ul class="brief-list">
+                                <li>
+                                    <span class="brief-main"><strong>Application Support Engineer</strong> at TELUS Digital</span>
+                                    <span class="brief-date">Apr 2026 – Present</span>
+                                </li>
+                                <li>
+                                    <span class="brief-main"><strong>Application Operations Engineer</strong> at DXC Technology Philippines</span>
+                                    <span class="brief-date">Oct 2023 – Apr 2026</span>
+                                </li>
+                                <li>
+                                    <span class="brief-main"><strong>Independent Contractor</strong> at Lazada Philippines</span>
+                                    <span class="brief-date">Jan 2022 – Jul 2023</span>
+                                </li>
+                            </ul>
+                            <a class="more-link" href="#experience">Read full experience</a>
+                        </div>
+                    </section>
+
+                    <!-- ---------- Certifications (short version) ---------- -->
+                    <section class="row" id="certifications-summary" aria-labelledby="cert-sum-title">
+                        <h2 class="row-label" id="cert-sum-title">Certifications</h2>
+                        <div class="row-body">
+                            <p class="row-intro"><span data-count="certifications">10</span> certifications across Microsoft, AWS, Oracle and ISC2. Most recent:</p>
+                            <ul class="brief-list">
+                                <li>
+                                    <span class="brief-main"><span class="code">AZ-305</span> Azure Solutions Architect Expert</span>
+                                    <span class="brief-date">Dec 2025</span>
+                                </li>
+                                <li>
+                                    <span class="brief-main"><span class="code">AZ-104</span> Azure Administrator Associate</span>
+                                    <span class="brief-date">Dec 2025</span>
+                                </li>
+                                <li>
+                                    <span class="brief-main"><span class="code">AIF-C01</span> AWS Certified AI Practitioner</span>
+                                    <span class="brief-date">Sep 2025</span>
+                                </li>
+                            </ul>
+                            <a class="more-link" href="#certifications">See all <span data-count="certifications">10</span> with verification links</a>
+                        </div>
+                    </section>
+
+                    <!-- ---------- Stack ---------- -->
+                    <section class="row" id="stack" aria-labelledby="stack-title">
+                        <h2 class="row-label" id="stack-title">Stack</h2>
+                        <div class="row-body">
+                            <dl class="stack">
+                                <div><dt>Cloud</dt><dd>AWS, Microsoft Azure, Google Cloud, Oracle Cloud</dd></div>
+                                <div><dt>Containers</dt><dd>Docker, Kubernetes, Amazon EKS, OpenShift, Helm</dd></div>
+                                <div><dt>Infrastructure as code</dt><dd>Terraform, CloudFormation, Ansible, Pulumi</dd></div>
+                                <div><dt>CI/CD</dt><dd>GitHub Actions, Jenkins, GitLab CI, Argo CD, JFrog Artifactory</dd></div>
+                                <div><dt>Observability</dt><dd>Dynatrace, Splunk, PagerDuty, CloudWatch, Prometheus, Grafana</dd></div>
+                                <div><dt>Scripting</dt><dd>Bash, Python, SQL, Go, YAML</dd></div>
+                                <div><dt>Systems</dt><dd>Linux/Unix, Windows Server, Nginx, JBoss, WebLogic, PostgreSQL</dd></div>
+                                <div><dt>Ways of working</dt><dd>Incident and problem management, change management (CAB), Jira, Git</dd></div>
+                            </dl>
+                        </div>
+                    </section>
+
+                    <!-- ---------- Education ---------- -->
+                    <section class="row" id="education" aria-labelledby="edu-title">
+                        <h2 class="row-label" id="edu-title">Education</h2>
+                        <div class="row-body">
+                            <ul class="edu-list">
+                                <li>
+                                    <h3>Bachelor of Science in Information Systems</h3>
+                                    <p>University of Rizal System, Binangonan Campus</p>
+                                </li>
+                                <li>
+                                    <h3>AWS re/Start</h3>
+                                    <p>Amazon Web Services, through Edukasyon PH</p>
+                                    <a href="https://www.credly.com/badges/327b9894-df55-4338-bcd9-bb49b7949142/public_url" target="_blank" rel="noopener noreferrer">Verify on Credly</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- ================= VIEW: EXPERIENCE ================= -->
+                <section class="view" id="view-experience" data-view="experience" aria-labelledby="experience-title">
+                    <header class="view-head">
+                        <a class="crumb" href="#overview">Overview</a>
+                        <h1 id="experience-title" tabindex="-1">Experience</h1>
+                        <p>Newest first. The tools under each role are the ones I used day to day.</p>
+                    </header>
+
+                    <ol class="roles">
+                        <li class="role-item">
+                            <div class="role-when">
+                                <span><time datetime="2026-04">Apr 2026</time> – Present</span>
+                                <span class="role-duration" data-start="2026-04"></span>
+                            </div>
+                            <div class="role-body">
+                                <h2 class="role-title">Application Support Engineer</h2>
+                                <p class="role-org">TELUS Digital</p>
+                                <ul class="role-points">
+                                    <li>Wrote and deployed Bash scripts for automated server restarts, cutting manual intervention and streamlining routine maintenance.</li>
+                                    <li>Supported configuration management and pull requests for TELUS Health software developers and data engineers using Git, GitHub and Visual Studio Code.</li>
+                                    <li>Administered configurations in the Google Cloud console and tracked work in Jira, using PagerDuty alerting for fast incident triage and strict SLA adherence.</li>
+                                    <li>Helped achieve a 99.99% uptime SLA for critical production systems.</li>
+                                    <li>Implemented monitoring that reduced mean time to recovery (MTTR) by 60%.</li>
+                                    <li>Supported enterprise data pipelines, system loads and ETL workflows in Informatica and DataHub, keeping source-to-target data in sync.</li>
+                                    <li>Provisioned secure access through AccessNow for Domo, Looker and Tableau reporting environments for internal and external stakeholders.</li>
+                                </ul>
+                                <p class="role-tools"><span class="role-tools-label">Tools</span> Bash, Git, GitHub, Google Cloud, Jira, PagerDuty, Informatica, DataHub, AccessNow, Domo, Looker, Tableau</p>
+                            </div>
+                        </li>
+
+                        <li class="role-item">
+                            <div class="role-when">
+                                <span><time datetime="2023-10">Oct 2023</time> – <time datetime="2026-04">Apr 2026</time></span>
+                                <span class="role-duration" data-start="2023-10" data-end="2026-04"></span>
+                            </div>
+                            <div class="role-body">
+                                <h2 class="role-title">Application Operations Engineer</h2>
+                                <p class="role-org">DXC Technology Philippines</p>
+                                <ul class="role-points">
+                                    <li>Provided L1 and L2 production support across a broad enterprise estate, and managed certificate updates, renewals and expirations.</li>
+                                    <li>Handled incident and problem management: root cause analysis, recovery, notifications, and daily incident review and reporting.</li>
+                                    <li>Ran change management end to end: change records, exemption approvals, and representing changes to the Change Advisory Board (CAB) and Technical Advisory Board (TAB).</li>
+                                    <li>Established disaster recovery procedures that helped sustain 99.9% uptime.</li>
+                                    <li>Helped teams implement changes, verified services after deployments, and ran health checks.</li>
+                                    <li>Automated Linux server tasks with Bash scripts and streamlined reporting with Excel macros.</li>
+                                    <li>Handled batch jobs and acted as liaison between vendors and internal and external teams.</li>
+                                    <li>Joined post-implementation knowledge transfer and technical verification, and maintained knowledge-base documentation.</li>
+                                </ul>
+                                <p class="role-tools"><span class="role-tools-label">Tools</span> Microsoft Azure, Azure Databricks, Azure Data Factory, OpenShift, Jenkins, JFrog Artifactory, Dynatrace, Splunk Cloud, CyberArk, CA Workload Automation (Autosys), Akamai, Pega, Feedhub, Linux/Unix, Windows Server, JBoss, WebLogic, SQL</p>
+                            </div>
+                        </li>
+
+                        <li class="role-item">
+                            <div class="role-when">
+                                <span><time datetime="2022-01">Jan 2022</time> – <time datetime="2023-07">Jul 2023</time></span>
+                                <span class="role-duration" data-start="2022-01" data-end="2023-07"></span>
+                            </div>
+                            <div class="role-body">
+                                <h2 class="role-title">Independent Contractor</h2>
+                                <p class="role-org">Lazada Philippines Services</p>
+                                <ul class="role-points">
+                                    <li>Managed and organized assigned parcels for delivery according to set routes and schedules.</li>
+                                    <li>Delivered parcels accurately and on time to Lazada customers within agreed timeframes.</li>
+                                    <li>Gave professional, courteous service in every delivery interaction.</li>
+                                    <li>Used Lazada's mobile system for real-time status updates, route optimization and dispatch communication.</li>
+                                    <li>Followed all delivery protocols, safety guidelines and regulations, keeping goods secure and undamaged.</li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+                <!-- ================= VIEW: CERTIFICATIONS ================= -->
+                <section class="view" id="view-certifications" data-view="certifications" aria-labelledby="certifications-title">
+                    <header class="view-head">
+                        <a class="crumb" href="#overview">Overview</a>
+                        <h1 id="certifications-title" tabindex="-1">Certifications</h1>
+                        <p>Every certification links to the issuer's own verification page.</p>
+                    </header>
+
+                    <!-- Filter buttons. The numbers are counted automatically by the JS.
+                         data-filter must match the data-issuer on the certificates below. -->
+                    <div class="cert-filters" role="group" aria-label="Filter by issuer">
+                        <button type="button" class="chip" data-filter="all" aria-pressed="true">All <span class="chip-count"></span></button>
+                        <button type="button" class="chip" data-filter="microsoft" aria-pressed="false">Microsoft <span class="chip-count"></span></button>
+                        <button type="button" class="chip" data-filter="aws" aria-pressed="false">AWS <span class="chip-count"></span></button>
+                        <button type="button" class="chip" data-filter="oracle" aria-pressed="false">Oracle <span class="chip-count"></span></button>
+                        <button type="button" class="chip" data-filter="isc2" aria-pressed="false">ISC2 <span class="chip-count"></span></button>
                     </div>
-                </div>
-            </div>
-        </nav>
-    </header>
+                    <p class="cert-status" id="certStatus" role="status" aria-live="polite"></p>
 
-    <!-- Hero Section: text only (name, title, description, buttons) -->
-    <section class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title fade-in-up">Richmond Rivera</h1>
-                <h2 class="hero-subtitle fade-in-up" style="animation-delay: 0.1s;">Cloud DevOps Engineer</h2>
-                <p class="hero-description fade-in-up" style="animation-delay: 0.2s;">
-                    Transitioning from Enterprise Production Support to Cloud Computing and Artificial Intelligence. Currently deploying homelab projects to automate infrastructure, optimize Linux environments, and scale cloud workloads.
+                    <!-- ✏️ CERTIFICATE TEMPLATE: copy one <li class="cert"> ... </li> block, newest at the top.
+                         The total count in the menu and on the Overview updates by itself. -->
+                    <ul class="cert-list">
+                        <li class="cert" data-issuer="microsoft">
+                            <span class="code">AZ-305</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Azure Solutions Architect Expert</h2>
+                                <p class="cert-meta"><span>Microsoft</span><span>Expert</span><time datetime="2025-12">Dec 2025</time></p>
+                                <p class="cert-id">Credential ID 90DB6D22B1A86380</p>
+                            </div>
+                            <a class="cert-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/90DB6D22B1A86380?sharingId=B221160F8C8FEA87" target="_blank" rel="noopener noreferrer" aria-label="Verify Azure Solutions Architect Expert on Microsoft Learn">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="microsoft">
+                            <span class="code">AZ-104</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Azure Administrator Associate</h2>
+                                <p class="cert-meta"><span>Microsoft</span><span>Associate</span><time datetime="2025-12">Dec 2025</time></p>
+                                <p class="cert-id">Credential ID B0FEA3A5F7200BFD</p>
+                            </div>
+                            <a class="cert-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/B0FEA3A5F7200BFD?sharingId=B221160F8C8FEA87" target="_blank" rel="noopener noreferrer" aria-label="Verify Azure Administrator Associate on Microsoft Learn">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="aws">
+                            <span class="code">AIF-C01</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">AWS Certified AI Practitioner</h2>
+                                <p class="cert-meta"><span>Amazon Web Services</span><span>Foundational</span><time datetime="2025-09">Sep 2025</time></p>
+                            </div>
+                            <a class="cert-verify" href="https://www.credly.com/badges/4422e28b-a0d8-4a82-a0c0-c7e4801571e4" target="_blank" rel="noopener noreferrer" aria-label="Verify AWS Certified AI Practitioner on Credly">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="isc2">
+                            <span class="code">ISC2</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">ISC2 Candidate</h2>
+                                <p class="cert-meta"><span>ISC2</span><span>Candidate</span><time datetime="2025-08">Aug 2025</time></p>
+                            </div>
+                            <a class="cert-verify" href="https://www.credly.com/badges/ce3f7b37-742b-4ccd-a76d-ff47bd2f27eb" target="_blank" rel="noopener noreferrer" aria-label="Verify ISC2 Candidate on Credly">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="microsoft">
+                            <span class="code">AI-900</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Azure AI Fundamentals</h2>
+                                <p class="cert-meta"><span>Microsoft</span><span>Fundamentals</span><time datetime="2025-06">Jun 2025</time></p>
+                                <p class="cert-id">Credential ID ADD10125923AA213</p>
+                            </div>
+                            <a class="cert-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/ADD10125923AA213?sharingId=B221160F8C8FEA87" target="_blank" rel="noopener noreferrer" aria-label="Verify Azure AI Fundamentals on Microsoft Learn">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="microsoft">
+                            <span class="code">DP-900</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Azure Data Fundamentals</h2>
+                                <p class="cert-meta"><span>Microsoft</span><span>Fundamentals</span><time datetime="2025-06">Jun 2025</time></p>
+                                <p class="cert-id">Credential ID 2494D4C69F7805C7</p>
+                            </div>
+                            <a class="cert-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/2494D4C69F7805C7?sharingId=B221160F8C8FEA87" target="_blank" rel="noopener noreferrer" aria-label="Verify Azure Data Fundamentals on Microsoft Learn">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="microsoft">
+                            <span class="code">SC-900</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Security, Compliance, and Identity Fundamentals</h2>
+                                <p class="cert-meta"><span>Microsoft</span><span>Fundamentals</span><time datetime="2025-06">Jun 2025</time></p>
+                                <p class="cert-id">Credential ID AA5D19B125836C9D</p>
+                            </div>
+                            <a class="cert-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/RichmondRivera-3467/AA5D19B125836C9D?sharingId=C48F71EACFF4AB1E" target="_blank" rel="noopener noreferrer" aria-label="Verify Security, Compliance, and Identity Fundamentals on Microsoft Learn">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="aws">
+                            <span class="code">CLF-C02</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">AWS Certified Cloud Practitioner</h2>
+                                <p class="cert-meta"><span>Amazon Web Services</span><span>Foundational</span><time datetime="2024-03">Mar 2024</time></p>
+                            </div>
+                            <a class="cert-verify" href="https://www.credly.com/badges/ef6e6675-8377-49a7-8e87-a00d978b186f" target="_blank" rel="noopener noreferrer" aria-label="Verify AWS Certified Cloud Practitioner on Credly">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="microsoft">
+                            <span class="code">AZ-900</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Azure Fundamentals</h2>
+                                <p class="cert-meta"><span>Microsoft</span><span>Fundamentals</span><time datetime="2023-12">Dec 2023</time></p>
+                                <p class="cert-id">Credential ID C5D1CBC2BC06FB3A</p>
+                            </div>
+                            <a class="cert-verify" href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/C5D1CBC2BC06FB3A?sharingId=B221160F8C8FEA87" target="_blank" rel="noopener noreferrer" aria-label="Verify Azure Fundamentals on Microsoft Learn">Verify</a>
+                        </li>
+
+                        <li class="cert" data-issuer="oracle">
+                            <span class="code">OCI</span>
+                            <div class="cert-main">
+                                <h2 class="cert-name">Oracle Cloud Infrastructure Foundations Associate</h2>
+                                <p class="cert-meta"><span>Oracle</span><span>Foundations</span><time datetime="2023-11">Nov 2023</time></p>
+                                <p class="cert-id">Credential ID 55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682</p>
+                            </div>
+                            <a class="cert-verify" href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682" target="_blank" rel="noopener noreferrer" aria-label="Verify Oracle Cloud Infrastructure Foundations Associate on Oracle">Verify</a>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- ================= CONTACT (shown under every page) ================= -->
+                <section class="contact" id="contact" aria-labelledby="contact-title">
+                    <h2 id="contact-title">Get in touch</h2>
+                    <p class="contact-lede">Email is the fastest way to reach me. I usually reply within a day.</p>
+
+                    <ul class="contact-list">
+                        <li class="contact-row">
+                            <span class="contact-label">Email</span>
+                            <a class="contact-value" href="mailto:richmondrivera007@gmail.com">richmondrivera007@gmail.com</a>
+                            <span class="contact-actions">
+                                <button type="button" class="text-btn" data-copy="richmondrivera007@gmail.com">Copy</button>
+                                <a class="text-btn" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=richmondrivera007@gmail.com" target="_blank" rel="noopener noreferrer">Open in Gmail</a>
+                            </span>
+                        </li>
+                        <li class="contact-row">
+                            <span class="contact-label">LinkedIn</span>
+                            <a class="contact-value" href="https://www.linkedin.com/in/richmondrivera007/" target="_blank" rel="noopener noreferrer">linkedin.com/in/richmondrivera007</a>
+                        </li>
+                        <li class="contact-row">
+                            <span class="contact-label">GitHub</span>
+                            <a class="contact-value" href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">github.com/richmondrivera</a>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+
+            <footer class="site-foot">
+                <p>&copy; <span id="year">2026</span> Richmond Rivera</p>
+                <p>
+                    Served from AWS S3 and CloudFront.
+                    <!-- Filled in by the JS from your Lambda visitor counter. Stays hidden if the API is down. -->
+                    <span id="visits" hidden>Viewed <strong id="visitCount"></strong> times, counted by API Gateway and Lambda.</span>
                 </p>
-                <div class="hero-cta fade-in-up" style="animation-delay: 0.3s;">
-                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                    <a href="#" class="btn btn-secondary" id="downloadResume">Download Resume</a>
-                </div>
-            </div>
-
+                <p><a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">Source code</a></p>
+            </footer>
         </div>
-    </section>
+    </div>
 
-    <!-- Main Content -->
-    <main id="main">
-        <!-- About Section -->
-        <section id="about" class="section about-section">
-            <div class="container">
-                <h2 class="section-title">About Me</h2>
-                <div class="about-grid">
-                    <div class="about-text fade-in">
-                        <p>
-                            I'm a Production Support Engineer with 3+ years of experience designing and implementing cloud infrastructure solutions. 
-                            I specialize in containerization, Kubernetes orchestration, and infrastructure automation using AWS and modern DevOps tools.
-                        </p>
-                        <p>
-                            Having spent time in the trenches of Production Support, I know exactly what it takes to keep systems running. Now, as I transition into Cloud DevOps, my focus is on solving those operational bottlenecks at the root. I drive automation, build robust observability, and foster continuous improvement to reduce overhead and engineer reliability from the ground up.
-                        </p>
-                        <p>
-                            When I'm not optimizing infrastructure, you can find me contributing to open-source projects or writing about cloud-native technologies.
-                        </p>
+    <!-- Small pop-up message ("Email copied") -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-                        <!-- Stats -->
-                        <div class="stats-grid">
-                            <div class="stat-card fade-in-up">
-                                <div class="stat-number">50+</div>
-                                <div class="stat-label">Deployments</div>
-                            </div>
-                            <div class="stat-card fade-in-up">
-                                <div class="stat-number">99.9%</div>
-                                <div class="stat-label">Uptime</div>
-                            </div>
-                            <div class="stat-card fade-in-up">
-                                <div class="stat-number">10+</div>
-                                <div class="stat-label">Open Source</div>
-                            </div>
-                            <div class="stat-card fade-in-up">
-                                <div class="stat-number">3+</div>
-                                <div class="stat-label">Years Experience</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="about-features fade-in">
-                        <h3>What I Do Right Now</h3>
-                        <ul class="features-list">
-                            <li>
-                                <span class="feature-icon">🐳</span>
-                                <div>
-                                    <h4>Container Orchestration</h4>
-                                    <p>Design and manage Kubernetes clusters on AWS EKS</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="feature-icon">📊</span>
-                                <div>
-                                    <h4>Monitoring & Logging</h4>
-                                    <p>Implement comprehensive observability with CloudWatch, Prometheus, and Grafana</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="feature-icon">🔄</span>
-                                <div>
-                                    <h4>CI/CD Automation</h4>
-                                    <p>Build automated pipelines with GitHub Actions and AWS CodePipeline</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="feature-icon">🏗️</span>
-                                <div>
-                                    <h4>Infrastructure as Code</h4>
-                                    <p>Define infrastructure with Terraform and CloudFormation</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="feature-icon">🔐</span>
-                                <div>
-                                    <h4>Security & Compliance</h4>
-                                    <p>Implement RBAC, network policies, and security best practices</p>
-                                </div>
-                            </li>
-                            <li>
-                                <span class="feature-icon">📈</span>
-                                <div>
-                                    <h4>Performance Optimization</h4>
-                                    <p>Optimize infrastructure for cost and performance</p>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="section skills-section">
-            <div class="container">
-                <h2 class="section-title">Technical Skills</h2>
-                
-                <div class="skills-grid">
-                    <!-- Cloud Platforms -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">☁️ Cloud Platforms</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">AWS</span></li>
-                            <li><span class="skill-badge">GCP</span></li>
-                            <li><span class="skill-badge">Azure</span></li>
-                            <li><span class="skill-badge">Oracle Cloud</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Container & Orchestration -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">🐳 Container & Orchestration</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">Kubernetes</span></li>
-                            <li><span class="skill-badge">Docker</span></li>
-                            <li><span class="skill-badge">EKS</span></li>
-                            <li><span class="skill-badge">Helm</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Infrastructure as Code -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">📋 Infrastructure as Code</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">Terraform</span></li>
-                            <li><span class="skill-badge">CloudFormation</span></li>
-                            <li><span class="skill-badge">Ansible</span></li>
-                            <li><span class="skill-badge">Pulumi</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- CI/CD & Automation -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">🔄 CI/CD & Automation</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">GitHub Actions</span></li>
-                            <li><span class="skill-badge">GitLab CI</span></li>
-                            <li><span class="skill-badge">Jenkins</span></li>
-                            <li><span class="skill-badge">ArgoCD</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Monitoring & Logging -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">📊 Monitoring & Logging</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">CloudWatch</span></li>
-                            <li><span class="skill-badge">Prometheus</span></li>
-                            <li><span class="skill-badge">Grafana</span></li>
-                            <li><span class="skill-badge">ELK Stack</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Programming -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">💻 Programming Languages</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">Bash/Shell</span></li>
-                            <li><span class="skill-badge">Python</span></li>
-                            <li><span class="skill-badge">Go</span></li>
-                            <li><span class="skill-badge">YAML</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Security -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">🔐 Security</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">RBAC</span></li>
-                            <li><span class="skill-badge">Network Security</span></li>
-                            <li><span class="skill-badge">Secrets Management</span></li>
-                            <li><span class="skill-badge">Compliance</span></li>
-                        </ul>
-                    </div>
-
-                    <!-- Additional Tools -->
-                    <div class="skill-category fade-in">
-                        <div class="skill-header">
-                            <h3 class="skill-title">🛠️ Tools & Platforms</h3>
-                        </div>
-                        <ul class="skill-items">
-                            <li><span class="skill-badge">Git</span></li>
-                            <li><span class="skill-badge">Linux</span></li>
-                            <li><span class="skill-badge">Nginx</span></li>
-                            <li><span class="skill-badge">PostgreSQL</span></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Proficiency Bars -->
-                <div class="proficiency-section">
-                    <h3>Proficiency Levels</h3>
-                    <div class="proficiency-grid">
-                        <div class="proficiency-item fade-in">
-                            <div class="proficiency-header">
-                                <span class="proficiency-label">Kubernetes</span>
-                                <span class="proficiency-percent">68%</span>
-                            </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 68%"></div>
-                            </div>
-                        </div>
-                        <div class="proficiency-item fade-in">
-                            <div class="proficiency-header">
-                                <span class="proficiency-label">AWS</span>
-                                <span class="proficiency-percent">90%</span>
-                            </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 90%"></div>
-                            </div>
-                        </div>
-                        <div class="proficiency-item fade-in">
-                            <div class="proficiency-header">
-                                <span class="proficiency-label">Terraform</span>
-                                <span class="proficiency-percent">75%</span>
-                            </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 75%"></div>
-                            </div>
-                        </div>
-                        <div class="proficiency-item fade-in">
-                            <div class="proficiency-header">
-                                <span class="proficiency-label">Docker</span>
-                                <span class="proficiency-percent">70%</span>
-                            </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 70%"></div>
-                            </div>
-                        </div>
-                        <div class="proficiency-item fade-in">
-                            <div class="proficiency-header">
-                                <span class="proficiency-label">Bash/Python</span>
-                                <span class="proficiency-percent">85%</span>
-                            </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div class="proficiency-item fade-in">
-                            <div class="proficiency-header">
-                                <span class="proficiency-label">CI/CD Pipelines</span>
-                                <span class="proficiency-percent">88%</span>
-                            </div>
-                            <div class="proficiency-bar">
-                                <div class="proficiency-fill" style="width: 88%"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="section experience-section">
-            <div class="container">
-                <h2 class="section-title">Experience</h2>
-                
-                <div class="timeline">
-                    <!-- Experience 1 -->
-                    <div class="timeline-item fade-in-up">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3 class="timeline-title">Application Support Engineer</h3>
-                            <p class="timeline-company">Telus Digital</p>
-                            <p class="timeline-date">April 2026 - Present</p>
-                            <ul class="timeline-details">
-                                <li>Developed and deployed automated Bash shell scripting for server restarts, reducing manual intervention, streamlining routine system maintenance, and driving overall operational efficiency.</li>
-                                <li>Facilitated configuration management and supported pull requests (PRs) for partner Software Developers and Data Engineers within Telus Health, utilizing Git, GitHub, and Visual Studio Code.</li>
-                                <li>Administered configurations via the Google Cloud Platform (GCP) Console and managed workflow tracking through JIRA. Utilized PagerDuty for continuous alerting and system health monitoring to ensure rapid incident triage and strict Service Level Agreement (SLA) adherence.</li>
-                                <li>Achieved 99.99% uptime SLA for critical production systems.</li>
-                                <li>Supported enterprise data pipelines, system loads, and ETL workflows utilizing Informatica and Datahub, ensuring seamless source-to-target data synchronization.</li>
-                                <li>Executed secure access provisioning via AccessNow for business intelligence reporting environments—including DOMO, Looker, and Tableau—supporting seamless data access for internal clients and external stakeholders.</li>
-                                <li>Implemented comprehensive monitoring reducing MTTR by 60%.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Experience 2 -->
-                    <div class="timeline-item fade-in-up">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3 class="timeline-title">Application Operations Engineer</h3>
-                            <p class="timeline-company">DXC Technology Philippines</p>
-                            <p class="timeline-date">October 2023 - April 2026</p>
-                            <ul class="timeline-details">
-                                <li>Provide L1 and L2 Production Support, leveraging technologies such as Cyberark, CA Workload Automation (Autosys), Akamai, Azure DataBricks, Azure Data Factory, Feedhub File Transfer, Dynatrace, Jenkins, JFrog Artifactory, Linux/Unix server, Microsoft Azure, OpenShift Container Platform, PegaSystems, Splunk Cloud, SQL, JBoss, WebLogic, and Windows server. Manage updates, renewals, and expirations of certificates.</li>
-                                <li>Assist teams in implementing changes within supported environments, monitor and verify services post-deployments, and conduct health checks.</li>
-                                <li>Handle batch tasks and act as a liaison between vendors and internal/external teams.</li>
-                                <li>Support projects by participating in post-implementation knowledge transfer, technical verification, and documentation creation and maintenance for the knowledge base.</li>
-                                <li>Engage in Incident and problem management, including root cause analysis, incident recovery, incident notification, and communication, as well as daily incident review and reporting.</li>
-                                <li>Effectively manage change management processes, including creating change records, facilitating exemption approvals, and representing changes in meetings with the Change Advisory Board (CAB) and Technical Advisory Board (TAB) stakeholders.</li>
-                                <li>Established disaster recovery procedures achieving 99.9% uptime.</li>
-                                <li>Created Bash scripts to automate tasks for Linux servers.</li>
-                                <li>Automated Macro Excel scripts to streamline operational efficiency.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Experience 3 -->
-                    <div class="timeline-item fade-in-up">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3 class="timeline-title">Independent Contractor</h3>
-                            <p class="timeline-company">LAZADA Philippines Services Philippines</p>
-                            <p class="timeline-date">Jan 2022 - July 2023</p>
-                            <ul class="timeline-details">
-                                <li>Parcel Management: Efficiently manage and organize assigned parcels/goods for delivery according to established routes and schedules. </li>
-                                <li>Timely Delivery: Ensure the prompt and accurate delivery of all parcels to the designated Lazada customers within the agreed-upon timeframe.</li>
-                                <li>Customer Service: Provide excellent customer service during all delivery interactions, maintaining a professional and courteous demeanor.</li>
-                                <li>Safety and Security: Handle all parcels with care to prevent damage and maintain the security and confidentiality of the goods. </li>
-                                <li>Communication: Utilize Lazada's designated mobile application or system for real-time updates on delivery status, route optimization, and communication with dispatch/support.</li>
-                                <li>Compliance: Adhere strictly to all Lazada delivery protocols, safety guidelines, and regulations.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Education Section -->
-        <section id="education" class="section education-section">
-            <div class="container">
-                <h2 class="section-title">Education & Certifications</h2>
-                
-                <div class="education-grid">
-                    <!-- Education -->
-                    <div class="education-card fade-in">
-                        <div class="education-header">
-                            <h3 class="education-title">Bachelor of Science in Information Systems</h3>
-                            <p class="education-institution">University of Rizal System - Binangonan Campus</p>   
-                        </div>
-                    </div>
-
-                    <div class="education-card fade-in">
-                        <div class="education-header">
-                            <h3 class="education-title">AWS Re/Start Cohort</h3>
-                            <p class="education-institution">Amazon Web Services via Edukasyon PH </p>
-                            <a href="https://www.credly.com/badges/327b9894-df55-4338-bcd9-bb49b7949142/public_url" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Credly: AWS Certified AI Practitioner (opens in a new tab)">
-                                Verify on Credly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>   
-                        </div>
-                    </div>
-
-                    <!-- Certifications -->
-                    <div class="certifications-group">
-                        <h3 class="certifications-title">Professional Certifications</h3>
-                        <!-- Each "Verify" button opens the issuer's official verification page in a new tab.
-                             Microsoft buttons stay hidden until you replace PASTE-MICROSOFT-SHARE-LINK-HERE
-                             with that certification's share link from your Microsoft Learn profile. -->
-                        
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Microsoft Certified: Azure Solutions Architect Expert (AZ-305)</h4>
-                                <span class="cert-date">December 2025</span>
-                            </div>
-                            <p class="cert-issuer">Microsoft</p>
-                            <p class="cert-credential">Credential ID: 90DB6D22B1A86380</p>
-                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/90DB6D22B1A86380?sharingId=B221160F8C8FEA87" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Microsoft Learn: Azure Solutions Architect Expert (AZ-305) (opens in a new tab)">
-                                Verify on Microsoft Learn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Microsoft Certified: Azure Administrator Associate (AZ-104)</h4>
-                                <span class="cert-date">December 2025</span>
-                            </div>
-                            <p class="cert-issuer">Microsoft</p>
-                            <p class="cert-credential">Credential ID: B0FEA3A5F7200BFD</p>
-                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/B0FEA3A5F7200BFD?sharingId=B221160F8C8FEA87" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Microsoft Learn: Azure Administrator Associate (AZ-104) (opens in a new tab)">
-                                Verify on Microsoft Learn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">AWS Certified AI Practitioner (AIF-C01)</h4>
-                                <span class="cert-date">September 2025</span>
-                            </div>
-                            <p class="cert-issuer">Amazon Web Services</p>
-                            <p class="cert-credential">Credential URL: https://www.credly.com/badges/4422e28b-a0d8-4a82-a0c0-c7e4801571e4</p>
-                            <a href="https://www.credly.com/badges/4422e28b-a0d8-4a82-a0c0-c7e4801571e4" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Credly: AWS Certified AI Practitioner (opens in a new tab)">
-                                Verify on Credly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">ISC2 Candidate</h4>
-                                <span class="cert-date">August 2025</span>
-                            </div>
-                            <p class="cert-issuer">ISC2</p>
-                            <p class="cert-credential">Credential URL: https://www.credly.com/badges/ce3f7b37-742b-4ccd-a76d-ff47bd2f27eb</p>
-                            <a href="https://www.credly.com/badges/ce3f7b37-742b-4ccd-a76d-ff47bd2f27eb" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Credly: ISC2 Candidate (opens in a new tab)">
-                                Verify on Credly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Microsoft Certified: Azure AI Fundamentals (AI-900)</h4>
-                                <span class="cert-date">June 2025</span>
-                            </div>
-                            <p class="cert-issuer">Microsoft</p>
-                            <p class="cert-credential">Credential ID: ADD10125923AA213</p>
-                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/ADD10125923AA213?sharingId=B221160F8C8FEA87" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Microsoft Learn: Azure AI Fundamentals (AI-900) (opens in a new tab)">
-                                Verify on Microsoft Learn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Microsoft Certified: Azure Data Fundamentals (DP-900)</h4>
-                                <span class="cert-date">June 2025</span>
-                            </div>
-                            <p class="cert-issuer">Microsoft</p>
-                            <p class="cert-credential">Credential ID: 2494D4C69F7805C7</p>
-                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/2494D4C69F7805C7?sharingId=B221160F8C8FEA87" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Microsoft Learn: Azure Data Fundamentals (DP-900) (opens in a new tab)">
-                                Verify on Microsoft Learn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Microsoft Certified: Security, Compliance, and Identity Fundamentals (SC-900)</h4>
-                                <span class="cert-date">June 2025</span>
-                            </div>
-                            <p class="cert-issuer">Microsoft</p>
-                            <p class="cert-credential">Credential ID: AA5D19B125836C9D</p>
-                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/RichmondRivera-3467/AA5D19B125836C9D?sharingId=C48F71EACFF4AB1E" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Microsoft Learn: Security, Compliance, and Identity Fundamentals (SC-900) (opens in a new tab)">
-                                Verify on Microsoft Learn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">AWS Certified: Cloud Practitioner (CLF-C02)</h4>
-                                <span class="cert-date">March 2024</span>
-                            </div>
-                            <p class="cert-issuer">Amazon Web Services</p>
-                            <p class="cert-credential">Credential URL: https://www.credly.com/badges/ef6e6675-8377-49a7-8e87-a00d978b186f</p>
-                            <a href="https://www.credly.com/badges/ef6e6675-8377-49a7-8e87-a00d978b186f" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Credly: AWS Certified Cloud Practitioner (opens in a new tab)">
-                                Verify on Credly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Microsoft Certified: Azure Fundamentals (AZ-900)</h4>
-                                <span class="cert-date">December 2023</span>
-                            </div>
-                            <p class="cert-issuer">Microsoft</p>
-                            <p class="cert-credential">Credential ID: C5D1CBC2BC06FB3A</p>
-                            <a href="https://learn.microsoft.com/api/credentials/share/en-us/RICHMONDRIVERA-8065/C5D1CBC2BC06FB3A?sharingId=B221160F8C8FEA87" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Microsoft Learn: Azure Fundamentals (AZ-900) (opens in a new tab)">
-                                Verify on Microsoft Learn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-
-                        <div class="cert-card fade-in">
-                            <div class="cert-header">
-                                <h4 class="cert-name">Oracle Certified: Cloud Infrastructure Foundations Associate  </h4>
-                                <span class="cert-date">November 2023</span>
-                            </div>
-                            <p class="cert-issuer">Oracle</p>
-                            <p class="cert-credential">Credential ID: 55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682</p>    
-                            <a href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682" class="cert-verify" target="_blank" rel="noopener noreferrer"
-                               aria-label="Verify on Oracle: Oracle Cloud Infrastructure Foundations Associate (opens in a new tab)">
-                                Verify on Oracle <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Blogs Section -->
-
-        <!-- Contact Section -->
-        <section id="contact" class="section contact-section">
-            <div class="container">
-                <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">Let's discuss how I can help with your infrastructure needs</p>
-
-                <div class="contact-grid">
-                    <!-- Contact Form -->
-                    <div class="contact-form-wrapper fade-in">
-                        <form class="contact-form" id="contactForm">
-                            <div class="form-group">
-                                <label for="name" class="form-label">Name *</label>
-                                <input 
-                                    type="text" 
-                                    id="name" 
-                                    name="name" 
-                                    class="form-input" 
-                                    required
-                                    autocomplete="name"
-                                    placeholder="Your name"
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="email" class="form-label">Email *</label>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    name="email" 
-                                    class="form-input" 
-                                    required
-                                    autocomplete="email"
-                                    inputmode="email"
-                                    placeholder="your.email@example.com"
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="subject" class="form-label">Subject *</label>
-                                <input 
-                                    type="text" 
-                                    id="subject" 
-                                    name="subject" 
-                                    class="form-input" 
-                                    required
-                                    placeholder="What's this about?"
-                                >
-                            </div>
-
-                            <div class="form-group">
-                                <label for="message" class="form-label">Message *</label>
-                                <textarea 
-                                    id="message" 
-                                    name="message" 
-                                    class="form-textarea" 
-                                    rows="6" 
-                                    required
-                                    placeholder="Tell me about your project..."
-                                ></textarea>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary btn-large">Send Message</button>
-                            <div class="form-message" id="formMessage" style="display: none;"></div>
-                        </form>
-                    </div>
-
-                    <!-- Contact Information -->
-                    <div class="contact-info fade-in">
-                        <h3 class="contact-info-title">Contact Information</h3>
-                        
-                        <div class="contact-item">
-                            <span class="contact-icon">📧</span>
-                            <div>
-                                <p class="contact-label">Email</p>
-                                <a href="mailto:richmondrivera007@gmail.com" class="contact-link">
-                                    richmondrivera007@gmail.com
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <span class="contact-icon">💼</span>
-                            <div>
-                                <p class="contact-label">LinkedIn</p>
-                                <a href="https://www.linkedin.com/in/richmondrivera007/" target="_blank" rel="noopener noreferrer" class="contact-link">
-                                    linkedin.com/in/richmondrivera007/
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="contact-item">
-                            <span class="contact-icon">🐙</span>
-                            <div>
-                                <p class="contact-label">GitHub</p>
-                                <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer" class="contact-link">
-                                    github.com/richmondrivera
-                                </a>
-                            </div>
-                        </div>
-
-
-                        <!-- Download Resume Button -->
-                        <div class="resume-section">
-                            <h4 class="resume-title">Quick Links</h4>
-                            <a href="#" class="btn btn-secondary btn-block" id="downloadResumeButton">
-                                📥 Download Resume (PDF)
-                            </a>
-                            <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-block">
-                                👀 View Portfolio on GitHub
-                            </a>
-                        </div>
-
-                        <!-- Response Time -->
-                        <div class="response-time">
-                            <p class="response-text">
-                                <span class="status-indicator">●</span> 
-                                I typically respond within 24 hours
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer ("Back to Top" text link removed — replaced by the floating arrow below) -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <p class="footer-text">
-                    &copy; 2026 Richmond Rivera. Built with HTML, CSS, and JavaScript.
-                </p>
-                <div class="footer-links">
-                    <a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer" class="footer-link">
-                        Source Code
-                    </a>
-                </div>
-            </div>
-            
-            <div class="footer-badge">
-                <p class="footer-note">
-                    🚀 Hosted on AWS S3 + CloudFront | Built for DevOps Excellence
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Back-to-Top arrow: hidden at the top of the page, fades in once you scroll down -->
-    <button type="button" class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor"
-             stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"
-             aria-hidden="true" focusable="false">
-            <path d="M12 19V5"/>
-            <path d="M5 12l7-7 7 7"/>
-        </svg>
+    <!-- Floating back-to-top button, appears after you scroll down -->
+    <button type="button" class="to-top" id="toTop" aria-label="Back to top" title="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
     </button>
-
-    <!-- Theme toggle, visitor counter, mobile menu, form, back-to-top arrow -->
-    <script src="Richmond-Rivera.js"></script>
 </body>
 </html>
