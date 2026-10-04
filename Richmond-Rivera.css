@@ -888,7 +888,9 @@ html:not(.js) .view + .view {
 
 /* ---- Education ---- */
 .edu-list li + li {
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
 }
 
 .edu-list h3 {
@@ -905,6 +907,9 @@ html:not(.js) .view + .view {
     font-size: 0.875rem;
 }
 
+#education {
+    padding-bottom: 0;
+}
 
 /* ==========================================================================
    8. Projects and the milestone pipeline
