@@ -908,7 +908,7 @@ html:not(.js) .view + .view {
 }
 
 #education {
-    padding-bottom: 0;
+    padding-bottom: 1.25rem;
 }
 
 /* ==========================================================================
