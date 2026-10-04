@@ -30,7 +30,7 @@ jobs:
           aws s3 cp Richmond-Rivera.html s3://${{ secrets.S3_BUCKET_NAME }}/Richmond-Rivera.html
           aws s3 cp Richmond-Rivera.css s3://${{ secrets.S3_BUCKET_NAME }}/Richmond-Rivera.css
           aws s3 cp Richmond-Rivera.js s3://${{ secrets.S3_BUCKET_NAME }}/Richmond-Rivera.js
-
+          aws s3 cp Richmond-Rivera.json s3://${{ secrets.S3_BUCKET_NAME }}/Richmond-Rivera.json
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
