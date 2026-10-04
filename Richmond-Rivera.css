@@ -582,6 +582,30 @@ main:focus {
     box-shadow: 0 0 0 3px var(--ok-soft);
 }
 
+/* Phones and tablets: the same status as a pill under your title on the Overview */
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 1.1rem;
+    padding: 0.45rem 0.9rem 0.45rem 0.8rem;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: var(--bg-raised);
+    font-size: 0.8125rem;
+    line-height: 1.3;
+}
+
+.status-pill .status-dot {
+    margin-top: 0;
+}
+
+@media (min-width: 960px) {
+    .status-pill {
+        display: none;   /* desktop already shows it in the sidebar */
+    }
+}
+
 .sidebar-contact {
     margin-top: 1rem;
     font-size: 0.8125rem;
@@ -1303,7 +1327,7 @@ html:not(.js) .cert-filters {
 
 .contact {
     margin-top: 2rem;
-    padding: 3rem 0 3.5rem;
+    padding: 3rem 0 2.5rem;
     border-top: 1px solid var(--rule-strong);
 }
 
@@ -1330,10 +1354,6 @@ html:not(.js) .cert-filters {
     gap: 0.2rem;
     padding: 1rem 0;
     border-top: 1px solid var(--rule);
-}
-
-.contact-row:last-child {
-    border-bottom: 1px solid var(--rule);
 }
 
 .contact-label {
@@ -1399,7 +1419,7 @@ html:not(.js) .cert-filters {
 /* Visitor counter */
 .visits {
     display: inline-flex;
-    align-items: baseline;
+    align-items: flex-start;
     gap: 0.5rem;
 }
 
@@ -1410,7 +1430,7 @@ html:not(.js) .cert-filters {
 /* Small green "live" dot: the number comes straight from your Lambda */
 .visits-dot {
     flex-shrink: 0;
-    align-self: center;
+    margin-top: 0.5em;   /* lines up with the first line when the text wraps */
     width: 6px;
     height: 6px;
     border-radius: 50%;
@@ -1422,6 +1442,31 @@ html:not(.js) .cert-filters {
     color: var(--ink-2);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+}
+
+/* Phones and tablets: finger-sized footer links and tidier stacking */
+@media (max-width: 959px) {
+    .foot-row {
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .foot-links {
+        gap: 0 1.5rem;
+        margin-left: -0.1rem;
+    }
+
+    .foot-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;   /* 44px: comfortable tap target */
+    }
+
+    .foot-infra {
+        flex-direction: column;
+        gap: 0.4rem;
+        margin-top: 0.5rem;
+    }
 }
 
 @keyframes visits-in {
