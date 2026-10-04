@@ -13,7 +13,7 @@
      9.  Experience page
      10. Certifications page
      11. Contact and footer
-     12. Toast and back-to-top
+     12. Back-to-top button
      13. Motion, print
    ========================================================================== */
 
@@ -582,14 +582,14 @@ main:focus {
     box-shadow: 0 0 0 3px var(--ok-soft);
 }
 
-.sidebar-email {
+.sidebar-contact {
     margin-top: 1rem;
     font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--muted);
 }
 
-.sidebar-email a {
+.sidebar-contact a {
     display: inline-block;
     margin-top: 0.2rem;
     font-size: 0.8125rem;
@@ -1303,7 +1303,7 @@ html:not(.js) .cert-filters {
 
 .contact {
     margin-top: 2rem;
-    padding: 3rem 0 3.5rem;
+    padding: 3rem 0 2.5rem;
     border-top: 1px solid var(--rule-strong);
 }
 
@@ -1332,10 +1332,6 @@ html:not(.js) .cert-filters {
     border-top: 1px solid var(--rule);
 }
 
-.contact-row:last-child {
-    border-bottom: 1px solid var(--rule);
-}
-
 .contact-label {
     font-family: var(--mono);
     font-stretch: var(--mono-width);
@@ -1348,26 +1344,58 @@ html:not(.js) .cert-filters {
     overflow-wrap: anywhere;
 }
 
-.contact-actions {
+/* Visitor counter row: same columns as LinkedIn / GitHub, but plain text, not a link */
+.contact-visits:not([hidden]) {
+    animation: visits-in 400ms var(--ease);   /* soft fade when the number arrives */
+}
+
+.visits {
     display: flex;
-    gap: 1.25rem;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--muted);
+}
+
+/* Small green "live" dot: the number comes straight from your Lambda */
+.visits-dot {
+    flex-shrink: 0;
+    width: 6px;
+    height: 6px;
+    margin-top: 0.55em;   /* lines up with the first line if the text wraps */
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 3px var(--ok-soft);
+}
+
+.visits strong {
+    color: var(--ink);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes visits-in {
+    from {
+        opacity: 0;
+    }
 }
 
 @container (min-width: 36rem) {
     .contact-row {
-        grid-template-columns: 6rem minmax(0, 1fr) auto;
+        grid-template-columns: 6rem minmax(0, 1fr);
         align-items: center;
         gap: 1rem;
     }
 }
 
+/* Footer: copyright + links on the first row, hosting + visitor count below.
+   The bottom padding leaves room for the back-to-top button on phones. */
 .site-foot {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.75rem;
-    padding: 1.5rem 0 calc(2.5rem + env(safe-area-inset-bottom, 0px));
+    padding: 1.5rem 0 calc(5rem + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--rule);
     font-size: 0.8125rem;
+    line-height: 1.5;
     color: var(--muted);
 }
 
@@ -1375,39 +1403,56 @@ html:not(.js) .cert-filters {
     color: var(--muted);
 }
 
-.site-foot strong {
-    color: var(--ink-2);
-    font-weight: 600;
+.site-foot a:hover {
+    color: var(--accent);
 }
+
+.foot-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+}
+
+.foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+}
+
+.foot-infra {
+    margin-top: 0.75rem;
+}
+
+/* Phones and tablets: finger-sized footer links and tidier stacking */
+@media (max-width: 959px) {
+    .foot-row {
+        flex-direction: column;
+        gap: 0.35rem;
+    }
+
+    .foot-links {
+        gap: 0 1.5rem;
+        margin-left: -0.1rem;
+    }
+
+    .foot-links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 2.75rem;   /* 44px: comfortable tap target */
+    }
+
+    .foot-infra {
+        margin-top: 0.5rem;
+    }
+}
+
 
 
 /* ==========================================================================
-   12. Toast and back-to-top
+   12. Back-to-top button
    ========================================================================== */
-
-.toast {
-    position: fixed;
-    left: 50%;
-    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-    z-index: 90;
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    background: var(--ink);
-    color: var(--bg);
-    font-size: 0.875rem;
-    box-shadow: var(--shadow);
-    opacity: 0;
-    visibility: hidden;
-    transform: translate(-50%, 0.5rem);
-    transition: opacity 180ms var(--ease), transform 180ms var(--ease), visibility 0s linear 180ms;
-}
-
-.toast.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, 0);
-    transition: opacity 180ms var(--ease), transform 180ms var(--ease);
-}
 
 .to-top {
     position: fixed;
@@ -1488,9 +1533,9 @@ html:not(.js) .cert-filters {
     .cert-filters,
     .cert-status,
     .crumb,
-    .contact-actions,
+    .foot-links,
+    .contact-visits,
     .to-top,
-    .toast,
     .skip-link {
         display: none !important;
     }
