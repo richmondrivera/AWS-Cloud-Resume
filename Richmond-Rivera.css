@@ -288,6 +288,7 @@ main,
 .site-foot {
     max-width: var(--content-max);
     margin-inline: auto;
+    text-align: center;
 }
 
 main:focus {
