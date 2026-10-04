@@ -11,7 +11,7 @@
    PART 2 runs once the HTML has loaded:
      theme switch, page switching, automatic counts, job durations,
      project milestones, certification filters, "Recent changes" card,
-     copy-email button, new-tab labels, back-to-top, visitor counter.
+     new-tab labels, back-to-top, visitor counter.
 
    Note: no template literals (backticks) are used on purpose, so copying
    and pasting this file can't break it.
@@ -133,7 +133,6 @@
         initPipelines();
         initCertFilters();
         initChangelog();
-        initCopyButtons();
         initExternalLinks();
         initBackToTop();
         loadVisitorCount();
@@ -480,69 +479,6 @@
                 try { next.focus({ preventScroll: true }); } catch (e) { next.focus(); }
             }
         });
-    }
-
-
-    /* ------------------------------------------------------------------
-       Copy email button + small pop-up message
-       ------------------------------------------------------------------ */
-
-    function initCopyButtons() {
-        $$('[data-copy]').forEach(function (button) {
-            var originalText = button.textContent;
-            var resetTimer = null;
-
-            button.addEventListener('click', function () {
-                var text = button.getAttribute('data-copy');
-
-                copyText(text).then(function () {
-                    button.textContent = 'Copied';
-                    showToast('Copied ' + text);
-                    clearTimeout(resetTimer);
-                    resetTimer = setTimeout(function () { button.textContent = originalText; }, 2000);
-                }, function () {
-                    showToast('Copy didn\'t work here. Select the address and copy it manually.');
-                });
-            });
-        });
-    }
-
-    function copyText(text) {
-        if (navigator.clipboard && window.isSecureContext) {
-            return navigator.clipboard.writeText(text);
-        }
-
-        // Fallback for older browsers and pages opened without https
-        return new Promise(function (resolve, reject) {
-            var field = document.createElement('textarea');
-            field.value = text;
-            field.setAttribute('readonly', '');
-            field.style.position = 'fixed';
-            field.style.opacity = '0';
-            document.body.appendChild(field);
-            field.select();
-
-            var ok = false;
-            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
-            document.body.removeChild(field);
-
-            if (ok) { resolve(); } else { reject(new Error('Copy failed')); }
-        });
-    }
-
-    var toastTimer = null;
-
-    function showToast(message) {
-        var toast = document.getElementById('toast');
-        if (!toast) { return; }
-
-        toast.textContent = message;
-        toast.classList.add('is-visible');
-
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () {
-            toast.classList.remove('is-visible');
-        }, 2400);
     }
 
 
