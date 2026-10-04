@@ -1433,8 +1433,9 @@ html:not(.js) .cert-filters {
     }
 
     .foot-links {
+        align-self: stretch;
+        justify-content: center;
         gap: 0 1.5rem;
-        margin-left: -0.1rem;
     }
 
     .foot-links a {
