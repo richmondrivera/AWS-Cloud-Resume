@@ -8,6 +8,7 @@ on:
       - 'Richmond-Rivera.html'
       - 'Richmond-Rivera.css'
       - 'Richmond-Rivera.js'
+      - 'Richmond-Rivera.json'
 
 jobs:
   deploy:
