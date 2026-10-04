@@ -39,6 +39,10 @@
     // Your API Gateway + Lambda visitor counter (must return JSON like {"views": 123})
     var VISITOR_API = 'https://krjhjjpql3.execute-api.us-east-1.amazonaws.com/count';
     var VISITOR_TIMEOUT_MS = 6000;
+    // true  = count each visitor once per browser session (reloads and returning
+    //         to the tab show the saved number instead of adding another visit)
+    // false = every page load adds one, like your original counter
+    var COUNT_ONCE_PER_SESSION = true;
 
     // Spoken labels for project milestones (screen readers)
     var STEP_LABELS = { done: 'Done', running: 'In progress', pending: 'Planned' };
@@ -46,6 +50,7 @@
     // Names used in the browser's localStorage
     var THEME_KEY = 'theme';
     var CHANGELOG_KEY = 'changelog-hidden';
+    var VISITS_SESSION_KEY = 'visit-count';   // sessionStorage: cleared when the tab closes
 
 
     /* ------------------------------------------------------------------
@@ -524,16 +529,33 @@
 
 
     /* ------------------------------------------------------------------
-       Visitor counter (API Gateway + Lambda)
-       Shows the number in the footer. If the API is slow or down, the
-       line simply stays hidden instead of showing an error.
+       Visitor counter (API Gateway + Lambda), shown in the footer
+       • Waits until the browser is idle, so it never slows the page down
+       • Counts each visitor once per session (see COUNT_ONCE_PER_SESSION)
+       • Fades in when the number arrives; stays hidden if the API fails
        ------------------------------------------------------------------ */
 
     function loadVisitorCount() {
         var wrapper = document.getElementById('visits');
-        var number = document.getElementById('visitCount');
-        if (!wrapper || !number || !window.fetch) { return; }
+        if (!wrapper) { return; }
 
+        // Already counted in this session: show the saved number, skip the API
+        if (COUNT_ONCE_PER_SESSION) {
+            var saved = Number(sessionGet(VISITS_SESSION_KEY));
+            if (isFinite(saved) && saved >= 1) {
+                showVisitCount(saved);
+                return;
+            }
+        }
+
+        if (!window.fetch) { return; }
+
+        // Run when the browser has finished its important work (fallback: shortly after load)
+        var whenIdle = window.requestIdleCallback || function (fn) { return setTimeout(fn, 300); };
+        whenIdle(fetchVisitCount, { timeout: 2000 });
+    }
+
+    function fetchVisitCount() {
         var controller = window.AbortController ? new AbortController() : null;
         var timer = controller ? setTimeout(function () { controller.abort(); }, VISITOR_TIMEOUT_MS) : null;
 
@@ -547,13 +569,33 @@
                 var views = Number(data && data.views);
                 if (!isFinite(views) || views < 1) { throw new Error('Unexpected response'); }
 
-                number.textContent = views.toLocaleString();
-                wrapper.hidden = false;
+                if (COUNT_ONCE_PER_SESSION) { sessionSet(VISITS_SESSION_KEY, String(views)); }
+                showVisitCount(views);
             })
             .catch(function (error) {
                 clearTimeout(timer);
                 if (window.console) { console.warn('Visitor counter unavailable:', error.message || error); }
             });
+    }
+
+    function showVisitCount(views) {
+        var wrapper = document.getElementById('visits');
+        var number = document.getElementById('visitCount');
+        var label = document.getElementById('visitLabel');
+        if (!wrapper || !number) { return; }
+
+        number.textContent = views.toLocaleString();        // 1234 → "1,234"
+        if (label) { label.textContent = views === 1 ? 'visit' : 'visits'; }
+        wrapper.hidden = false;
+    }
+
+    // sessionStorage can be blocked too (private modes), so guard it like localStorage
+    function sessionGet(key) {
+        try { return sessionStorage.getItem(key); } catch (e) { return null; }
+    }
+
+    function sessionSet(key, value) {
+        try { sessionStorage.setItem(key, value); } catch (e) { /* ignore */ }
     }
 
 

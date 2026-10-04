@@ -482,14 +482,23 @@
             </main>
 
             <footer class="site-foot">
-                <p>&copy; <span id="year">2026</span> Richmond Rivera</p>
-                <p>
-                    Served from AWS S3 and CloudFront.
-                    <!-- Filled in by the JS from your Lambda visitor counter. Stays hidden if the API is down. -->
-                    <span id="visits" hidden>Viewed <strong id="visitCount"></strong> times, counted by API Gateway and Lambda.</span>
+                <div class="foot-row">
+                    <!-- The year updates automatically (see setYear in the JS) -->
+                    <p>&copy; <span id="year">2026</span> Richmond Rivera</p>
+                    <ul class="foot-links">
+                        <li><a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">Source code</a></li>
+                        <li><a href="Richmond-Rivera.json" target="_blank" rel="noopener noreferrer">Machine-Readable Version</a></li>
+                    </ul>
+                </div>
+                <p class="foot-infra">
+                    <span>Served from AWS S3 and CloudFront.</span>
+                    <!-- Visitor counter: filled in by the JS from your API Gateway + Lambda endpoint.
+                         Stays hidden if the API is slow or unreachable, so visitors never see an error. -->
+                    <span class="visits" id="visits" hidden>
+                        <span class="visits-dot" aria-hidden="true"></span>
+                        <span><strong id="visitCount"></strong> <span id="visitLabel">visits</span>, counted live by API Gateway and Lambda.</span>
+                    </span>
                 </p>
-                <p><a href="https://github.com/richmondrivera" target="_blank" rel="noopener noreferrer">Source code</a></p>
-                <p><a href="Richmond-Rivera.json" target="_blank" rel="noopener noreferrer">Machine-Readable Version</a></p>
             </footer>
         </div>
     </div>

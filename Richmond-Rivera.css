@@ -1356,13 +1356,13 @@ html:not(.js) .cert-filters {
     }
 }
 
+/* Footer: copyright + links on the first row, hosting + visitor count below.
+   The bottom padding leaves room for the back-to-top button on phones. */
 .site-foot {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.75rem;
-    padding: 1.5rem 0 calc(2.5rem + env(safe-area-inset-bottom, 0px));
+    padding: 1.5rem 0 calc(5rem + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--rule);
     font-size: 0.8125rem;
+    line-height: 1.5;
     color: var(--muted);
 }
 
@@ -1370,9 +1370,64 @@ html:not(.js) .cert-filters {
     color: var(--muted);
 }
 
-.site-foot strong {
+.site-foot a:hover {
+    color: var(--accent);
+}
+
+.foot-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+}
+
+.foot-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+}
+
+.foot-infra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.6rem;
+    margin-top: 0.75rem;
+}
+
+/* Visitor counter */
+.visits {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.visits:not([hidden]) {
+    animation: visits-in 400ms var(--ease);   /* soft fade when the number arrives */
+}
+
+/* Small green "live" dot: the number comes straight from your Lambda */
+.visits-dot {
+    flex-shrink: 0;
+    align-self: center;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ok);
+    box-shadow: 0 0 0 3px var(--ok-soft);
+}
+
+.visits strong {
     color: var(--ink-2);
     font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+@keyframes visits-in {
+    from {
+        opacity: 0;
+    }
 }
 
 
@@ -1459,6 +1514,8 @@ html:not(.js) .cert-filters {
     .cert-filters,
     .cert-status,
     .crumb,
+    .foot-links,
+    .visits,
     .to-top,
     .skip-link {
         display: none !important;
