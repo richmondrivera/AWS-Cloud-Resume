@@ -1,329 +1,329 @@
 {
   "basics": {
-    "name": "Richmond Rivera[cite: 1]",
-    "label": "Cloud DevOps Engineer[cite: 1]",
-    "email": "richmondrivera007@gmail.com[cite: 1]",
-    "status": "Open to Cloud and DevOps roles[cite: 1]",
-    "summary": "I keep enterprise production systems healthy as an Application Support Engineer, and I'm taking that experience into cloud infrastructure and AI. 3+ years in supporting Production Applications that taught me where operations break. Now I fix those bottlenecks at the root with automation, observability and infrastructure as code, and I try every idea in my homelab first.[cite: 1]",
+    "name": "Richmond Rivera",
+    "label": "Cloud DevOps Engineer",
+    "email": "richmondrivera007@gmail.com",
+    "status": "Open to Cloud and DevOps roles",
+    "summary": "I keep enterprise production systems healthy as an Application Support Engineer, and I'm taking that experience into cloud infrastructure and AI. 3+ years in supporting Production Applications that taught me where operations break. Now I fix those bottlenecks at the root with automation, observability and infrastructure as code, and I try every idea in my homelab first.",
     "profiles": [
       {
-        "network": "LinkedIn[cite: 1]",
-        "url": "https://www.linkedin.com/in/richmondrivera007/[cite: 1]"
+        "network": "LinkedIn",
+        "url": "https://www.linkedin.com/in/richmondrivera007/"
       },
       {
-        "network": "GitHub[cite: 1]",
-        "url": "https://github.com/richmondrivera[cite: 1]"
+        "network": "GitHub",
+        "url": "https://github.com/richmondrivera"
       }
     ]
   },
   "recent_changes": [
     {
-      "date": "2026-09[cite: 1]",
-      "description": "Building GCP-Powered Personal Chatbot for day-to-day tasks[cite: 1]"
+      "date": "2026-09",
+      "description": "Building GCP-Powered Personal Chatbot for day-to-day tasks"
     },
     {
-      "date": "2026-04[cite: 1]",
-      "description": "Joined TELUS Digital Philippines as Application Support Engineer[cite: 1]"
+      "date": "2026-04",
+      "description": "Joined TELUS Digital Philippines as Application Support Engineer"
     },
     {
-      "date": "2025-12[cite: 1]",
-      "description": "Earned Azure Solutions Architect Expert (AZ-305)[cite: 1]"
+      "date": "2025-12",
+      "description": "Earned Azure Solutions Architect Expert (AZ-305)"
     },
     {
-      "date": "2025-12[cite: 1]",
-      "description": "Earned Azure Administrator Associate (AZ-104)[cite: 1]"
+      "date": "2025-12",
+      "description": "Earned Azure Administrator Associate (AZ-104)"
     },
     {
-      "date": "2025-09[cite: 1]",
-      "description": "Earned AWS Certified AI Practitioner (AIF-C01)[cite: 1]"
+      "date": "2025-09",
+      "description": "Earned AWS Certified AI Practitioner (AIF-C01)"
     }
   ],
   "now_building": [
     {
-      "name": "Self-funded chatbot using Google Cloud Platform free trial subscription[cite: 1]",
-      "description": "A chatbot I'm building on my own Google Cloud free trial account to learn how to work with AI hands-on, and how it can help with my day-to-day tasks.[cite: 1]",
+      "name": "Self-funded chatbot using Google Cloud Platform free trial subscription",
+      "description": "A chatbot I'm building on my own Google Cloud free trial account to learn how to work with AI hands-on, and how it can help with my day-to-day tasks.",
       "milestones": [
         {
-          "state": "done[cite: 1]",
-          "task": "Google Cloud project on the free trial[cite: 1]"
+          "state": "done",
+          "task": "Google Cloud project on the free trial"
         },
         {
-          "state": "running[cite: 1]",
-          "task": "Chatbot prototype with Gemini on Vertex AI[cite: 1]"
+          "state": "running",
+          "task": "Chatbot prototype with Gemini on Vertex AI"
         },
         {
-          "state": "pending[cite: 1]",
-          "task": "Budget alerts and cost guardrails[cite: 1]"
+          "state": "pending",
+          "task": "Budget alerts and cost guardrails"
         },
         {
-          "state": "pending[cite: 1]",
-          "task": "Use it in my day-to-day tasks[cite: 1]"
+          "state": "pending",
+          "task": "Use it in my day-to-day tasks"
         }
       ],
       "stack": [
-        "Google Cloud[cite: 1]",
-        "Vertex AI[cite: 1]",
-        "Gemini[cite: 1]"
+        "Google Cloud",
+        "Vertex AI",
+        "Gemini"
       ],
-      "repository": "https://github.com/richmondrivera[cite: 1]"
+      "repository": "https://github.com/richmondrivera"
     },
     {
-      "name": "Homelab Automation[cite: 1]",
-      "description": "A Linux homelab where I automate the operations work I used to do by hand.[cite: 1]",
+      "name": "Homelab Automation",
+      "description": "A Linux homelab where I automate the operations work I used to do by hand.",
       "milestones": [
         {
-          "state": "done[cite: 1]",
-          "task": "Linux servers set up and hardened[cite: 1]"
+          "state": "done",
+          "task": "Linux servers set up and hardened"
         },
         {
-          "state": "running[cite: 1]",
-          "task": "Provisioning with Ansible playbooks[cite: 1]"
+          "state": "running",
+          "task": "Provisioning with Ansible playbooks"
         },
         {
-          "state": "pending[cite: 1]",
-          "task": "Metrics and alerts with Prometheus and Grafana[cite: 1]"
+          "state": "pending",
+          "task": "Metrics and alerts with Prometheus and Grafana"
         },
         {
-          "state": "pending[cite: 1]",
-          "task": "Kubernetes cluster for container workloads[cite: 1]"
+          "state": "pending",
+          "task": "Kubernetes cluster for container workloads"
         }
       ],
       "stack": [
-        "Linux[cite: 1]",
-        "Bash[cite: 1]",
-        "Ansible[cite: 1]",
-        "Prometheus[cite: 1]",
-        "Grafana[cite: 1]"
+        "Linux",
+        "Bash",
+        "Ansible",
+        "Prometheus",
+        "Grafana"
       ],
-      "repository": "https://github.com/richmondrivera[cite: 1]"
+      "repository": "https://github.com/richmondrivera"
     }
   ],
   "experience": [
     {
-      "title": "Application Support Engineer[cite: 1]",
-      "company": "TELUS Digital Philippines[cite: 1]",
-      "startDate": "2026-04[cite: 1]",
-      "endDate": "Present[cite: 1]",
+      "title": "Application Support Engineer",
+      "company": "TELUS Digital Philippines",
+      "startDate": "2026-04",
+      "endDate": "Present",
       "highlights": [
-        "Wrote and deployed Bash scripts for automated server restarts, cutting manual intervention and streamlining routine maintenance.[cite: 1]",
-        "Supported configuration management and pull requests for TELUS Health software developers and data engineers using Git, GitHub and Visual Studio Code.[cite: 1]",
-        "Administered configurations in the Google Cloud console and tracked work in Jira, using PagerDuty alerting for fast incident triage and strict SLA adherence.[cite: 1]",
-        "Helped achieve a 99.99% uptime SLA for critical production systems.[cite: 1]",
-        "Implemented monitoring that reduced mean time to recovery (MTTR) by 60%.[cite: 1]",
-        "Supported enterprise data pipelines, system loads and ETL workflows in Informatica and DataHub, keeping source-to-target data in sync.[cite: 1]",
-        "Provisioned secure access through AccessNow for Domo, Looker and Tableau reporting environments for internal and external stakeholders.[cite: 1]"
+        "Wrote and deployed Bash scripts for automated server restarts, cutting manual intervention and streamlining routine maintenance.",
+        "Supported configuration management and pull requests for TELUS Health software developers and data engineers using Git, GitHub and Visual Studio Code.",
+        "Administered configurations in the Google Cloud console and tracked work in Jira, using PagerDuty alerting for fast incident triage and strict SLA adherence.",
+        "Helped achieve a 99.99% uptime SLA for critical production systems.",
+        "Implemented monitoring that reduced mean time to recovery (MTTR) by 60%.",
+        "Supported enterprise data pipelines, system loads and ETL workflows in Informatica and DataHub, keeping source-to-target data in sync.",
+        "Provisioned secure access through AccessNow for Domo, Looker and Tableau reporting environments for internal and external stakeholders."
       ],
       "tools": [
-        "Bash[cite: 1]",
-        "Git[cite: 1]",
-        "GitHub[cite: 1]",
-        "Google Cloud[cite: 1]",
-        "Jira[cite: 1]",
-        "PagerDuty[cite: 1]",
-        "Informatica[cite: 1]",
-        "DataHub[cite: 1]",
-        "AccessNow[cite: 1]",
-        "Domo[cite: 1]",
-        "Looker[cite: 1]",
-        "Tableau[cite: 1]"
+        "Bash",
+        "Git",
+        "GitHub",
+        "Google Cloud",
+        "Jira",
+        "PagerDuty",
+        "Informatica",
+        "DataHub",
+        "AccessNow",
+        "Domo",
+        "Looker",
+        "Tableau"
       ]
     },
     {
-      "title": "Application Operations Engineer[cite: 1]",
-      "company": "DXC Technology Philippines[cite: 1]",
-      "startDate": "2023-10[cite: 1]",
-      "endDate": "2026-04[cite: 1]",
+      "title": "Application Operations Engineer",
+      "company": "DXC Technology Philippines",
+      "startDate": "2023-10",
+      "endDate": "2026-04",
       "highlights": [
-        "Provide L1 and L2 Production Support, leveraging technologies such as Azure Data Factory, CA Workload Automation (Autosys), Dynatrace, Feedhub, Jenkins, Linux/Unix server, Microsoft Azure, OpenShift, PegaSystems, Splunk, JBoss, and WebLogic. Manage updates, renewals, and expirations of certificates.[cite: 1]",
-        "Handled incident and problem management: root cause analysis, recovery, notifications, and daily incident review and reporting.[cite: 1]",
-        "Ran change management end to end: change records, exemption approvals, and representing changes to the Change Advisory Board (CAB) and Technical Advisory Board (TAB).[cite: 1]",
-        "Established disaster recovery procedures that helped sustain 99.9% uptime.[cite: 1]",
-        "Helped teams implement changes, verified services after deployments, and ran health checks.[cite: 1]",
-        "Automated Linux server tasks with Bash scripts and streamlined reporting with Excel macros.[cite: 1]",
-        "Handled batch jobs and acted as liaison between vendors and internal and external teams.[cite: 1]",
-        "Joined post-implementation knowledge transfer and technical verification, and maintained knowledge-base documentation.[cite: 1]"
+        "Provide L1 and L2 Production Support, leveraging technologies such as Azure Data Factory, CA Workload Automation (Autosys), Dynatrace, Feedhub, Jenkins, Linux/Unix server, Microsoft Azure, OpenShift, PegaSystems, Splunk, JBoss, and WebLogic. Manage updates, renewals, and expirations of certificates.",
+        "Handled incident and problem management: root cause analysis, recovery, notifications, and daily incident review and reporting.",
+        "Ran change management end to end: change records, exemption approvals, and representing changes to the Change Advisory Board (CAB) and Technical Advisory Board (TAB).",
+        "Established disaster recovery procedures that helped sustain 99.9% uptime.",
+        "Helped teams implement changes, verified services after deployments, and ran health checks.",
+        "Automated Linux server tasks with Bash scripts and streamlined reporting with Excel macros.",
+        "Handled batch jobs and acted as liaison between vendors and internal and external teams.",
+        "Joined post-implementation knowledge transfer and technical verification, and maintained knowledge-base documentation."
       ],
       "tools": [
-        "Microsoft Azure[cite: 1]",
-        "Azure Databricks[cite: 1]",
-        "Azure Data Factory[cite: 1]",
-        "OpenShift[cite: 1]",
-        "Jenkins[cite: 1]",
-        "JFrog Artifactory[cite: 1]",
-        "Dynatrace[cite: 1]",
-        "Splunk Cloud[cite: 1]",
-        "CyberArk[cite: 1]",
-        "CA Workload Automation (Autosys)[cite: 1]",
-        "Akamai[cite: 1]",
-        "Pega[cite: 1]",
-        "Feedhub[cite: 1]",
-        "Linux/Unix[cite: 1]",
-        "Windows Server[cite: 1]",
-        "JBoss[cite: 1]",
-        "WebLogic[cite: 1]",
-        "SQL[cite: 1]"
+        "Microsoft Azure",
+        "Azure Databricks",
+        "Azure Data Factory",
+        "OpenShift",
+        "Jenkins",
+        "JFrog Artifactory",
+        "Dynatrace",
+        "Splunk Cloud",
+        "CyberArk",
+        "CA Workload Automation (Autosys)",
+        "Akamai",
+        "Pega",
+        "Feedhub",
+        "Linux/Unix",
+        "Windows Server",
+        "JBoss",
+        "WebLogic",
+        "SQL"
       ]
     },
     {
-      "title": "Independent Contractor[cite: 1]",
-      "company": "Lazada Philippines Services[cite: 1]",
-      "startDate": "2022-01[cite: 1]",
-      "endDate": "2023-07[cite: 1]",
+      "title": "Independent Contractor",
+      "company": "Lazada Philippines Services",
+      "startDate": "2022-01",
+      "endDate": "2023-07",
       "highlights": [
-        "Managed and organized assigned parcels for delivery according to set routes and schedules.[cite: 1]",
-        "Delivered parcels accurately and on time to Lazada customers within agreed timeframes.[cite: 1]",
-        "Gave professional, courteous service in every delivery interaction.[cite: 1]",
-        "Used Lazada's mobile system for real-time status updates, route optimization and dispatch communication.[cite: 1]",
-        "Followed all delivery protocols, safety guidelines and regulations, keeping goods secure and undamaged.[cite: 1]"
+        "Managed and organized assigned parcels for delivery according to set routes and schedules.",
+        "Delivered parcels accurately and on time to Lazada customers within agreed timeframes.",
+        "Gave professional, courteous service in every delivery interaction.",
+        "Used Lazada's mobile system for real-time status updates, route optimization and dispatch communication.",
+        "Followed all delivery protocols, safety guidelines and regulations, keeping goods secure and undamaged."
       ]
     }
   ],
   "certifications": [
     {
-      "code": "AZ-305[cite: 1]",
-      "name": "Azure Solutions Architect Expert[cite: 1]",
-      "issuer": "Microsoft[cite: 1]",
-      "level": "Expert[cite: 1]",
-      "date": "2025-12[cite: 1]",
-      "credential_id": "90DB6D22B1A86380[cite: 1]"
+      "code": "AZ-305",
+      "name": "Azure Solutions Architect Expert",
+      "issuer": "Microsoft",
+      "level": "Expert",
+      "date": "2025-12",
+      "credential_id": "90DB6D22B1A86380"
     },
     {
-      "code": "AZ-104[cite: 1]",
-      "name": "Azure Administrator Associate[cite: 1]",
-      "issuer": "Microsoft[cite: 1]",
-      "level": "Associate[cite: 1]",
-      "date": "2025-12[cite: 1]",
-      "credential_id": "B0FEA3A5F7200BFD[cite: 1]"
+      "code": "AZ-104",
+      "name": "Azure Administrator Associate",
+      "issuer": "Microsoft",
+      "level": "Associate",
+      "date": "2025-12",
+      "credential_id": "B0FEA3A5F7200BFD"
     },
     {
-      "code": "AIF-C01[cite: 1]",
-      "name": "AWS Certified AI Practitioner[cite: 1]",
-      "issuer": "Amazon Web Services[cite: 1]",
-      "level": "Foundational[cite: 1]",
-      "date": "2025-09[cite: 1]"
+      "code": "AIF-C01",
+      "name": "AWS Certified AI Practitioner",
+      "issuer": "Amazon Web Services",
+      "level": "Foundational",
+      "date": "2025-09"
     },
     {
-      "code": "ISC2[cite: 1]",
-      "name": "ISC2 Candidate[cite: 1]",
-      "issuer": "ISC2[cite: 1]",
-      "level": "Candidate[cite: 1]",
-      "date": "2025-08[cite: 1]"
+      "code": "ISC2",
+      "name": "ISC2 Candidate",
+      "issuer": "ISC2",
+      "level": "Candidate",
+      "date": "2025-08"
     },
     {
-      "code": "AI-900[cite: 1]",
-      "name": "Azure AI Fundamentals[cite: 1]",
-      "issuer": "Microsoft[cite: 1]",
-      "level": "Fundamentals[cite: 1]",
-      "date": "2025-06[cite: 1]",
-      "credential_id": "ADD10125923AA213[cite: 1]"
+      "code": "AI-900",
+      "name": "Azure AI Fundamentals",
+      "issuer": "Microsoft",
+      "level": "Fundamentals",
+      "date": "2025-06",
+      "credential_id": "ADD10125923AA213"
     },
     {
-      "code": "DP-900[cite: 1]",
-      "name": "Azure Data Fundamentals[cite: 1]",
-      "issuer": "Microsoft[cite: 1]",
-      "level": "Fundamentals[cite: 1]",
-      "date": "2025-06[cite: 1]",
-      "credential_id": "2494D4C69F7805C7[cite: 1]"
+      "code": "DP-900",
+      "name": "Azure Data Fundamentals",
+      "issuer": "Microsoft",
+      "level": "Fundamentals",
+      "date": "2025-06",
+      "credential_id": "2494D4C69F7805C7"
     },
     {
-      "code": "SC-900[cite: 1]",
-      "name": "Azure Security, Compliance, and Identity Fundamentals[cite: 1]",
-      "issuer": "Microsoft[cite: 1]",
-      "level": "Fundamentals[cite: 1]",
-      "date": "2025-06[cite: 1]",
-      "credential_id": "AA5D19B125836C9D[cite: 1]"
+      "code": "SC-900",
+      "name": "Azure Security, Compliance, and Identity Fundamentals",
+      "issuer": "Microsoft",
+      "level": "Fundamentals",
+      "date": "2025-06",
+      "credential_id": "AA5D19B125836C9D"
     },
     {
-      "code": "CLF-C02[cite: 1]",
-      "name": "AWS Certified Cloud Practitioner[cite: 1]",
-      "issuer": "Amazon Web Services[cite: 1]",
-      "level": "Foundational[cite: 1]",
-      "date": "2024-03[cite: 1]"
+      "code": "CLF-C02",
+      "name": "AWS Certified Cloud Practitioner",
+      "issuer": "Amazon Web Services",
+      "level": "Foundational",
+      "date": "2024-03"
     },
     {
-      "code": "AZ-900[cite: 1]",
-      "name": "Azure Fundamentals[cite: 1]",
-      "issuer": "Microsoft[cite: 1]",
-      "level": "Fundamentals[cite: 1]",
-      "date": "2023-12[cite: 1]",
-      "credential_id": "C5D1CBC2BC06FB3A[cite: 1]"
+      "code": "AZ-900",
+      "name": "Azure Fundamentals",
+      "issuer": "Microsoft",
+      "level": "Fundamentals",
+      "date": "2023-12",
+      "credential_id": "C5D1CBC2BC06FB3A"
     },
     {
-      "code": "OCI[cite: 1]",
-      "name": "Oracle Cloud Infrastructure Foundations Associate[cite: 1]",
-      "issuer": "Oracle[cite: 1]",
-      "level": "Foundations[cite: 1]",
-      "date": "2023-11[cite: 1]",
-      "credential_id": "55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682[cite: 1]"
+      "code": "OCI",
+      "name": "Oracle Cloud Infrastructure Foundations Associate",
+      "issuer": "Oracle",
+      "level": "Foundations",
+      "date": "2023-11",
+      "credential_id": "55324D051847D36C81C88300D80FF4D6170DB6354C28128C65D7B5727D2F8682"
     }
   ],
   "stack": {
     "Cloud": [
-      "AWS[cite: 1]",
-      "Google Cloud[cite: 1]",
-      "Microsoft Azure[cite: 1]",
-      "Oracle Cloud[cite: 1]"
+      "AWS",
+      "Google Cloud",
+      "Microsoft Azure",
+      "Oracle Cloud"
     ],
     "Containers": [
-      "Docker[cite: 1]",
-      "Kubernetes[cite: 1]",
-      "Amazon EKS[cite: 1]",
-      "OpenShift[cite: 1]",
-      "Helm[cite: 1]"
+      "Docker",
+      "Kubernetes",
+      "Amazon EKS",
+      "OpenShift",
+      "Helm"
     ],
     "Databases": [
-      "SQL[cite: 1]",
-      "Microsoft SQL Server[cite: 1]",
-      "PostgreSQL[cite: 1]"
+      "SQL",
+      "Microsoft SQL Server",
+      "PostgreSQL"
     ],
     "ITIL Practices": [
-      "Incident and Problem Management[cite: 1]",
-      "Change Management (CAB)[cite: 1]",
-      "Service Request Management[cite: 1]"
+      "Incident and Problem Management",
+      "Change Management (CAB)",
+      "Service Request Management"
     ],
     "Infrastructure as code": [
-      "Terraform[cite: 1]",
-      "CloudFormation[cite: 1]",
-      "Ansible[cite: 1]"
+      "Terraform",
+      "CloudFormation",
+      "Ansible"
     ],
     "CI/CD": [
-      "GitHub Actions[cite: 1]",
-      "Jenkins[cite: 1]",
-      "GitLab[cite: 1]"
+      "GitHub Actions",
+      "Jenkins",
+      "GitLab"
     ],
     "Observability": [
-      "Dynatrace[cite: 1]",
-      "Splunk[cite: 1]",
-      "PagerDuty[cite: 1]",
-      "CloudWatch[cite: 1]",
-      "Prometheus[cite: 1]",
-      "Grafana[cite: 1]"
+      "Dynatrace",
+      "Splunk",
+      "PagerDuty",
+      "CloudWatch",
+      "Prometheus",
+      "Grafana"
     ],
     "Scripting": [
-      "Bash[cite: 1]",
-      "Python[cite: 1]"
+      "Bash",
+      "Python"
     ],
     "Systems": [
-      "Linux/Unix[cite: 1]",
-      "Windows OS[cite: 1]"
+      "Linux/Unix",
+      "Windows OS"
     ],
     "Ticketing Tools": [
-      "BMC Remedy[cite: 1]",
-      "Jira[cite: 1]",
-      "ServiceNow[cite: 1]"
+      "BMC Remedy",
+      "Jira",
+      "ServiceNow"
     ],
     "Version Control": [
-      "Git & GitHub[cite: 1]"
+      "Git & GitHub"
     ]
   },
   "education": [
     {
-      "degree": "Bachelor of Science in Information Systems[cite: 1]",
-      "institution": "University of Rizal System, Binangonan Campus[cite: 1]"
+      "degree": "Bachelor of Science in Information Systems",
+      "institution": "University of Rizal System, Binangonan Campus"
     },
     {
-      "degree": "AWS re/Start[cite: 1]",
-      "institution": "Amazon Web Services, through Edukasyon PH[cite: 1]"
+      "degree": "AWS re/Start",
+      "institution": "Amazon Web Services, through Edukasyon PH"
     }
   ]
 }
