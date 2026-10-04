@@ -1427,6 +1427,9 @@ html:not(.js) .cert-filters {
 
 /* Phones and tablets: finger-sized footer links and tidier stacking */
 @media (max-width: 959px) {
+    .site-foot {
+        text-align: center;
+    }
     .foot-row {
         flex-direction: column;
         gap: 0.35rem;
