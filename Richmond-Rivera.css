@@ -197,7 +197,7 @@ a[target="_blank"]::after {
 /* Shared small "code" tag, e.g. AZ-305 */
 .code {
     display: inline-block;
-    padding: 0.2rem 0.5rem 0.15rem;
+    padding: 0.18rem 0.45rem 0.15rem;
     border: 1px solid var(--rule-strong);
     border-radius: 4px;
     font-family: var(--mono);
@@ -381,7 +381,7 @@ main:focus {
 .nav-link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.45rem;
     flex-shrink: 0;
     border-bottom: 2px solid transparent;
     font-family: var(--mono);
@@ -567,7 +567,7 @@ main:focus {
 .status {
     display: flex;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.55rem;
     font-size: 0.8125rem;
     color: var(--ink);
 }
@@ -718,7 +718,7 @@ html:not(.js) .view + .view {
 /* ---- Recent changes card ---- */
 .changelog {
     margin-bottom: 1rem;
-    padding: 1.25rem 1.25rem 0.5rem;
+    padding: 1.1rem 1.35rem 0.6rem;
     border: 1px solid var(--rule);
     border-radius: var(--radius);
     background: var(--bg-raised);
@@ -743,14 +743,14 @@ html:not(.js) .view + .view {
     display: grid;
     grid-template-columns: 4.75rem minmax(0, 1fr);
     gap: 1rem;
-    padding: 0.75rem 0;
+    padding: 0.7rem 0;
     border-top: 1px solid var(--rule);
     font-size: 0.9375rem;
     line-height: 1.5;
 }
 
 .changelog-list li:first-child {
-    margin-top: 0.5rem;
+    margin-top: 0.4rem;
 }
 
 .changelog-list time {
@@ -763,7 +763,7 @@ html:not(.js) .view + .view {
 
 /* ---- Section rows (label on the left, content on the right) ---- */
 .row {
-    padding: 2.5rem 0;
+    padding: 3rem 0;
     border-top: 1px solid var(--rule);
 }
 
@@ -796,7 +796,6 @@ html:not(.js) .view + .view {
         display: grid;
         grid-template-columns: 9rem minmax(0, 1fr);
         gap: 2rem;
-        padding: 3rem 0;
     }
 
     .row-label {
@@ -815,7 +814,7 @@ html:not(.js) .view + .view {
     align-items: baseline;
     justify-content: space-between;
     gap: 0.25rem 1.5rem;
-    padding: 0.75rem 0;
+    padding: 0.8rem 0;
     border-bottom: 1px solid var(--rule);
 }
 
@@ -829,7 +828,7 @@ html:not(.js) .view + .view {
 }
 
 .brief-main .code {
-    margin-right: 0.5rem;
+    margin-right: 0.55rem;
     vertical-align: 0.1em;
 }
 
@@ -851,13 +850,13 @@ html:not(.js) .view + .view {
 
 .more-link {
     display: inline-block;
-    margin-top: 1rem;
+    margin-top: 1.1rem;
     font-size: 0.9375rem;
 }
 
 /* ---- Stack ---- */
 .stack > div {
-    padding: 0.75rem 0;
+    padding: 0.8rem 0;
     border-bottom: 1px solid var(--rule);
 }
 
@@ -912,7 +911,7 @@ html:not(.js) .view + .view {
    ========================================================================== */
 
 .project {
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 1.75rem;
     border-top: 1px solid var(--rule);
 }
 
@@ -965,7 +964,7 @@ html:not(.js) .view + .view {
    done = solid dot · running = amber dot with a soft pulse · pending = hollow dot */
 .pipeline {
     --dot: 0.75rem;
-    margin-top: 1.5rem;
+    margin-top: 1.4rem;
 }
 
 .pipeline li {
@@ -1081,7 +1080,7 @@ html:not(.js) .view + .view {
    ========================================================================== */
 
 .role-item {
-    padding: 2rem 0;
+    padding: 2rem 0 2.25rem;
     border-top: 1px solid var(--rule);
 }
 
@@ -1112,8 +1111,8 @@ html:not(.js) .view + .view {
 
 .role-points {
     max-width: 38rem;
-    margin-top: 1rem;
-    padding-left: 1.125rem;
+    margin-top: 1.1rem;
+    padding-left: 1.1rem;
     list-style: disc;
 }
 
@@ -1182,7 +1181,7 @@ html:not(.js) .cert-filters {
     align-items: center;
     gap: 0.4rem;
     min-height: 2.5rem;
-    padding: 0 1rem;
+    padding: 0 0.95rem;
     border: 1px solid var(--rule-strong);
     border-radius: 999px;
     font-family: var(--mono);
@@ -1210,7 +1209,7 @@ html:not(.js) .cert-filters {
 
 .cert-status {
     min-height: 1.5rem;
-    margin: 0.75rem 0 0.5rem;
+    margin: 0.85rem 0 0.5rem;
     font-size: 0.8125rem;
     color: var(--muted);
 }
@@ -1304,7 +1303,7 @@ html:not(.js) .cert-filters {
 
 .contact {
     margin-top: 2rem;
-    padding: 2.5rem 0;
+    padding: 3rem 0 3.5rem;
     border-top: 1px solid var(--rule-strong);
 }
 
@@ -1317,18 +1316,18 @@ html:not(.js) .cert-filters {
 }
 
 .contact-lede {
-    margin-top: 0.75rem;
+    margin-top: 0.6rem;
     color: var(--muted);
 }
 
 .contact-list {
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
 }
 
 .contact-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 0.25rem;
+    gap: 0.2rem;
     padding: 1rem 0;
     border-top: 1px solid var(--rule);
 }
@@ -1365,16 +1364,11 @@ html:not(.js) .cert-filters {
 .site-foot {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
+    gap: 0.5rem 1.75rem;
     padding: 1.5rem 0 calc(2.5rem + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--rule);
     font-size: 0.8125rem;
     color: var(--muted);
-}
-
-/* Each line of text takes a full row, so Source code and Machine-Readable Version always sit side by side below it */
-.site-foot > :not(a) {
-    flex-basis: 100%;
 }
 
 .site-foot a {
