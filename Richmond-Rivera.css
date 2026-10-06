@@ -1277,15 +1277,6 @@ html:not(.js) .cert-filters {
     vertical-align: middle;
 }
 
-.cert-id {
-    margin-top: 0.4rem;
-    font-family: var(--mono);
-    font-stretch: var(--mono-width);
-    font-size: 0.6875rem;
-    color: var(--muted);
-    overflow-wrap: anywhere;
-}
-
 @container (min-width: 36rem) {
     .cert {
         grid-template-columns: 5rem minmax(0, 1fr) auto;
